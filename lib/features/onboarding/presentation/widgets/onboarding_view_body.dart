@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:to_do_list_app/core/constants.dart';
+import 'package:to_do_list_app/constants.dart';
 import 'package:to_do_list_app/core/extensions/context_extension.dart';
 import 'package:to_do_list_app/core/extensions/navigation_context.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
