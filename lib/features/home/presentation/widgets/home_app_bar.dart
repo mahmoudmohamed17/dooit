@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:to_do_list_app/features/home/presentation/widgets/app_logo_widget.dart';
 
-class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({
+class HomeAppBar extends StatelessWidget {
+  const HomeAppBar({
     super.key,
   });
 
@@ -13,12 +13,12 @@ class CustomAppBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const AppLogoWidget(),
-        IconButton(
-        onPressed: () {},
-        padding: EdgeInsets.zero,
-        icon: const Icon(
-          FontAwesomeIcons.magnifyingGlass,
-        )),
+        GestureDetector(
+          onTap: () {},
+          child: const Icon(
+            FontAwesomeIcons.magnifyingGlass,
+          ),
+        ),
       ],
     );
   }

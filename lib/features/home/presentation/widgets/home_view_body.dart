@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list_app/constants.dart';
 import 'package:to_do_list_app/core/utils/spaces.dart';
-import 'package:to_do_list_app/features/home/presentation/widgets/custom_app_bar.dart';
+import 'package:to_do_list_app/features/home/presentation/widgets/home_app_bar.dart';
 import 'package:to_do_list_app/features/home/presentation/widgets/home_screens_page_view.dart';
 import 'package:to_do_list_app/features/home/presentation/widgets/navigation_buttons_widget.dart';
 
@@ -40,7 +40,8 @@ class _HomeViewBodyState extends State<HomeViewBody> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const CustomAppBar(),
+            verticalSpace(16),
+            const HomeAppBar(),
             verticalSpace(42),
             NavigationButtonsWidget(
               activeIndex: currentIndex,

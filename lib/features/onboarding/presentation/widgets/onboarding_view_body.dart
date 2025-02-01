@@ -6,9 +6,9 @@ import 'package:to_do_list_app/core/extensions/navigation_context.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 import 'package:to_do_list_app/core/utils/assets.dart';
-import 'package:to_do_list_app/core/utils/routes.dart';
 import 'package:to_do_list_app/core/utils/spaces.dart';
 import 'package:to_do_list_app/core/widgets/custom_button.dart';
+import 'package:to_do_list_app/features/home/presentation/views/home_view.dart';
 
 class OnboardingViewBody extends StatelessWidget {
   const OnboardingViewBody({super.key});
@@ -46,7 +46,7 @@ class OnboardingViewBody extends StatelessWidget {
                   child: CustomButton(
                     label: 'Continue',
                     onPressed: () {
-                      context.pushReplacementNamed(Routes.homeView);
+                      context.pushReplacementNamed(HomeView.id);
                     },
                   ),
                 )

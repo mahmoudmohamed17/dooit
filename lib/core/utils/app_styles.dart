@@ -42,6 +42,11 @@ abstract class AppStyles {
     fontWeight: FontWeight.w500, // Medium
     fontSize: 8,
   );
+  static const TextStyle medium12 = TextStyle(
+    fontFamily: 'Poppins',
+    fontWeight: FontWeight.w500, // Medium
+    fontSize: 12,
+  );
 
   static const TextStyle regular8 = TextStyle(
     fontFamily: 'Poppins',
