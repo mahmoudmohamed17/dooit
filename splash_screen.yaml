@@ -3,7 +3,7 @@ flutter_native_splash:
   image: assets/images/splash.png
   android_12:
     image: assets/images/splash.png
+    color: "#000000"
   android: true
   ios: true
   web: false
-  android_gravity: center
