@@ -19,7 +19,6 @@ class OnboardingViewBody extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: horizontalPadding),
       child: Center(
         child: Column(
-          spacing: 32,
           children: [
             Expanded(child: verticalSpace(0)),
             SvgPicture.asset(
@@ -27,11 +26,13 @@ class OnboardingViewBody extends StatelessWidget {
               height: 60,
               width: 60,
             ),
+            verticalSpace(16),
              Text(
               'Dooit',
               textAlign: TextAlign.center,
               style: AppStyles.semibold40.copyWith(color: AppColors.secondaryColor),
             ),
+            verticalSpace(16),
             Text(
               'Write what you need to do. Everyday.',
               textAlign: TextAlign.center,

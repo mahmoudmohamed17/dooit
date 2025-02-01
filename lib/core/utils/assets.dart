@@ -15,8 +15,8 @@ class Assets {
   static const String imagesCalendar = "assets/images/calendar.svg";
 
   /// Assets for imagesCreateToDo
-  /// assets/images/create-to-do.svg
-  static const String imagesCreateToDo = "assets/images/create-to-do.svg";
+  /// assets/images/create_to_do.svg
+  static const String imagesCreateToDo = "assets/images/create_to_do.svg";
 
   /// Assets for imagesOnBoard
   /// assets/images/on-board.jpg
