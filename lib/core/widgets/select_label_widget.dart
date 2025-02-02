@@ -19,13 +19,13 @@ class _SelectLabelWidgetState extends State<SelectLabelWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: List.generate(labeles.length, (index) {
+      children: List.generate(labels.length, (index) {
         return GestureDetector(
           onTap: () {
             setState(() {
               currentIndex = index;
             });
-            widget.onTap ?? (labeles[index]);
+            widget.onTap ?? (labels[index]);
           },
           child: Padding(
             padding: const EdgeInsets.only(right: 8),
