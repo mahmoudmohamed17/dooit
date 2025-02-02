@@ -10,6 +10,7 @@ dependencies:
   bloc: ^9.0.0
   cupertino_icons: ^1.0.8
   drift: ^2.22.1
+  drift_flutter: ^0.2.4
   drift_sqflite: ^2.0.1
   flutter:
     sdk: flutter
@@ -22,7 +23,6 @@ dependencies:
   intl: ^0.18.0
   page_transition: ^2.1.0
   path_provider: ^2.1.5
-  provider: ^6.1.2
   shared_preferences: ^2.3.3
 dev_dependencies:
   drift_dev: ^2.22.1
@@ -30,7 +30,6 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   flutter_test:
     sdk: flutter
-  hive_generator: ^2.0.1
 flutter:
   uses-material-design: true
   assets:

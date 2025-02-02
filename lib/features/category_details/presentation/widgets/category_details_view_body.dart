@@ -27,8 +27,7 @@ class CategoryDetailsViewBody extends StatelessWidget {
             verticalSpace(18),
             const Expanded(child: TasksList()),
             verticalSpace(8),
-            const Divider(
-            ),
+            const Divider(),
             verticalSpace(16),
             const LabelsListWidget(),
             verticalSpace(20),
