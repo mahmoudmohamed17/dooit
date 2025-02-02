@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:to_do_list_app/constants.dart';
 import 'package:to_do_list_app/core/extensions/context_extension.dart';
 import 'package:to_do_list_app/core/extensions/navigation_context.dart';
+import 'package:to_do_list_app/core/models/category_with_tasks.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 import 'package:to_do_list_app/features/category_details/presentation/views/category_details_view.dart';
 import 'package:to_do_list_app/features/home/presentation/widgets/date_widget.dart';
 
 class CategoryItem extends StatelessWidget {
-  const CategoryItem({super.key});
+  const CategoryItem({super.key, required this.categoryWithTasks});
+  final CategoryWithTasks categoryWithTasks;
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +30,8 @@ class CategoryItem extends StatelessWidget {
           children: [
             SizedBox(
               width: context.width * 0.77,
-              child: const Text(
-                'Daily To-do’s',
+              child: Text(
+                categoryWithTasks.category.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: AppStyles.medium20,
@@ -45,12 +47,14 @@ class CategoryItem extends StatelessWidget {
                   ),
                   padding: const EdgeInsets.all(8),
                   child: Text(
-                    'Personal',
+                    categoryWithTasks.category.label,
                     style: AppStyles.medium8
                         .copyWith(color: AppColors.secondaryColor),
                   ),
                 ),
-                const DateWidget(),
+                DateWidget(
+                  date: categoryWithTasks.category.date,
+                ),
               ],
             )
           ],

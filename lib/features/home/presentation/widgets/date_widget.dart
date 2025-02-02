@@ -4,8 +4,8 @@ import 'package:to_do_list_app/core/utils/app_styles.dart';
 import 'package:to_do_list_app/core/utils/assets.dart';
 
 class DateWidget extends StatelessWidget {
-  const DateWidget({super.key});
-
+  const DateWidget({super.key, required this.date});
+  final String date;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -16,8 +16,8 @@ class DateWidget extends StatelessWidget {
           height: 15,
           width: 15,
         ),
-        const Text(
-          '12-5-2024',
+        Text(
+          date,
           style: AppStyles.regular8,
         )
       ],

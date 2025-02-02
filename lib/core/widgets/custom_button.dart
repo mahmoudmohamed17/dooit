@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list_app/constants.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 
@@ -12,14 +11,13 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primaryColor,
-            elevation: 0,
-            shadowColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(customButtonRadius))),
+          backgroundColor: AppColors.secondaryColor,
+          elevation: 0,
+          shadowColor: Colors.transparent,
+        ),
         child: Text(
           label,
-          style: AppStyles.medium16.copyWith(color: AppColors.secondaryColor),
+          style: AppStyles.medium16.copyWith(color: AppColors.primaryColor),
         ));
   }
 }
