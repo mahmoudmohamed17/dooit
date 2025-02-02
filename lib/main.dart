@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:to_do_list_app/core/utils/app_router.dart';
 import 'package:to_do_list_app/core/utils/routes.dart';
 import 'package:to_do_list_app/core/utils/shared_prefs.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:to_do_list_app/features/home/presentation/home_cubit/home_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,11 +18,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Dooit',
-      debugShowCheckedModeBanner: false,
-      initialRoute: Routes.onboardingView,
-      onGenerateRoute: AppRouter.onGeneratedRoute,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => HomeCubit(),
+        ),
+      ],
+      child: const MaterialApp(
+        title: 'Dooit',
+        debugShowCheckedModeBanner: false,
+        initialRoute: Routes.onboardingView,
+        onGenerateRoute: AppRouter.onGeneratedRoute,
+      ),
     );
   }
 }

@@ -36,8 +36,11 @@ class AppDatabase extends _$AppDatabase {
   // removes the tasks first as it's linked to the category
   Future<void> deleteCategory({required int categoryId}) async {
     await Future.wait([
-      (delete(tasksTable)..where((task) => task.categoryId.equals(categoryId))).go(),
-      (delete(categoriesTable)..where((category) => category.id.equals(categoryId))).go(),
+      (delete(tasksTable)..where((task) => task.categoryId.equals(categoryId)))
+          .go(),
+      (delete(categoriesTable)
+            ..where((category) => category.id.equals(categoryId)))
+          .go(),
     ]);
   }
 
@@ -52,15 +55,23 @@ class AppDatabase extends _$AppDatabase {
     await (delete(tasksTable)..where((task) => task.id.equals(taskId))).go();
   }
 
-  // we can specify what should be update in the cubit, bloc... etc
-  // using [CategoriesTableData] with the copyWith() method
-  Future<void> updateCategory({required CategoriesTableData category}) async {
-    await update(categoriesTable).replace(category);
+  Future<void> updateCategory(int categoryId,
+      {String? title, String? label, bool? isPinned}) async {
+    await (update(categoriesTable)
+          ..where((category) => category.id.equals(categoryId)))
+        .write(CategoriesTableCompanion(
+      title: title != null ? Value(title) : const Value.absent(),
+      label: label != null ? Value(label) : const Value.absent(),
+      isPinned: isPinned != null ? Value(isPinned) : const Value.absent(),
+    ));
   }
 
-  // the same for the tasks
-  Future<void> updateTask({required TasksTableData task}) async {
-    await update(tasksTable).replace(task);
+  Future<void> updateTask(int taskId, {String? title, bool? isChecked}) async {
+    await (update(tasksTable)..where((task) => task.id.equals(taskId))).write(
+        TasksTableCompanion(
+            title: title != null ? Value(title) : const Value.absent(),
+            isChecked:
+                isChecked != null ? Value(isChecked) : const Value.absent()));
   }
 
   Future<List<CategoryWithTasks>> getCategoriesWithTasks() async {
