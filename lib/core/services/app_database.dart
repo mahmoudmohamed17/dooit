@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:to_do_list_app/core/models/category_with_tasks.dart';
 import 'package:to_do_list_app/core/services/categories_table.dart';
 import 'package:to_do_list_app/core/services/tasks_table.dart';
 part 'app_database.g.dart';
@@ -10,14 +11,71 @@ part 'app_database.g.dart';
   TasksTable,
 ])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase(): super(_openConnection());
+  AppDatabase() : super(_openConnection());
 
   @override
   int get schemaVersion => 1;
 
-  
+  // basic operations
 
-   static QueryExecutor _openConnection() {
+  // as we need the data inside the category when
+  // navigating to the details body we return [CategoriesTableData]
+  Future<CategoriesTableData> addCategory(
+      {required String title,
+      required String label,
+      required String date}) async {
+    return await into(categoriesTable).insertReturning(CategoriesTableCompanion(
+      title: Value(title),
+      label: Value(label),
+      date: Value(date),
+      isPinned: const Value(false),
+    ));
+  }
+
+  // delete a category with its tasks
+  // removes the tasks first as it's linked to the category
+  Future<void> deleteCategory({required int categoryId}) async {
+    await Future.wait([
+      (delete(tasksTable)..where((task) => task.categoryId.equals(categoryId))).go(),
+      (delete(categoriesTable)..where((category) => category.id.equals(categoryId))).go(),
+    ]);
+  }
+
+  Future<void> addTask({required String title, required int categoryId}) async {
+    await into(tasksTable).insert(TasksTableCompanion(
+        title: Value(title),
+        categoryId: Value(categoryId),
+        isChecked: const Value(false)));
+  }
+
+  Future<void> deleteTask({required int taskId}) async {
+    await (delete(tasksTable)..where((task) => task.id.equals(taskId))).go();
+  }
+
+  // we can specify what should be update in the cubit, bloc... etc
+  // using [CategoriesTableData] with the copyWith() method
+  Future<void> updateCategory({required CategoriesTableData category}) async {
+    await update(categoriesTable).replace(category);
+  }
+
+  // the same for the tasks
+  Future<void> updateTask({required TasksTableData task}) async {
+    await update(tasksTable).replace(task);
+  }
+
+  Future<List<CategoryWithTasks>> getCategoriesWithTasks() async {
+    final categories = await select(categoriesTable).get();
+    List<CategoryWithTasks> result = [];
+    for (var category in categories) {
+      final tasksList = await (select(tasksTable)
+            ..where((task) => task.categoryId.equals(category.id)))
+          .get();
+      result.add(CategoryWithTasks(category: category, tasks: tasksList));
+    }
+    return result;
+  }
+
+  static QueryExecutor _openConnection() {
     return driftDatabase(
       name: 'my_database',
       native: const DriftNativeOptions(
