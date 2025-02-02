@@ -31,9 +31,10 @@ class EmptyAllListsBody extends StatelessWidget {
               borderRadius: BorderRadius.circular(customButtonRadius),
             ),
             padding: const EdgeInsets.all(8),
-            child: const Text(
+            child: Text(
               '+ New List',
-              style: AppStyles.medium14,
+              style:
+                  AppStyles.medium14.copyWith(color: AppColors.secondaryColor),
             ),
           ),
         ),

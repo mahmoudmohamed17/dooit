@@ -3,3 +3,7 @@ const navigationButtonRadius = 10.0;
 const labelRadius = 6.0;
 const customButtonRadius = 8.0;
 const categoryItemRadius = 16.0;
+const personal = 'Personal';
+const work = 'Work';
+const finance = 'Finance';
+const other = 'Other';
