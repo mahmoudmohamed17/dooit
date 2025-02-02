@@ -19,7 +19,7 @@ class CategoryDetailsViewBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             verticalSpace(16),
-            const CategoryDetailsAppBar(),
+            CategoryDetailsAppBar(category: categoryWithTasks.category,),
             verticalSpace(24),
             Text(
               categoryWithTasks.category.title,

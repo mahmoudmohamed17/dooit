@@ -4,13 +4,27 @@ import 'package:to_do_list_app/constants.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 
-class PinWidget extends StatelessWidget {
-  const PinWidget({super.key});
+class PinWidget extends StatefulWidget {
+  const PinWidget({super.key, required this.onTap, required this.isPinned});
+  final Function(bool) onTap;
+  final bool isPinned;
 
   @override
+  State<PinWidget> createState() => _PinWidgetState();
+}
+
+class _PinWidgetState extends State<PinWidget> {
+  bool isActive = false;
+  @override
   Widget build(BuildContext context) {
+    isActive = widget.isPinned;
     return GestureDetector(
-      
+      onTap: () {
+        setState(() {
+          isActive = !isActive;
+        });
+        widget.onTap.call(isActive);
+      },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 350),
         decoration: ShapeDecoration(
@@ -18,17 +32,18 @@ class PinWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(labelRadius),
               side: const BorderSide(color: AppColors.primaryColor),
             ),
-            color: AppColors.secondaryColor),
+            color:
+                isActive ? AppColors.primaryColor : AppColors.secondaryColor),
         padding: const EdgeInsets.all(6),
-        child: const Row(
+        child: Row(
           spacing: 4,
           children: [
-            Icon(
+            const Icon(
               FontAwesomeIcons.mapPin,
               size: 16,
             ),
             Text(
-              'Pinned',
+              isActive ? 'Pinned' : 'Pin',
               style: AppStyles.medium10,
             )
           ],
