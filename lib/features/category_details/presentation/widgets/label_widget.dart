@@ -4,8 +4,9 @@ import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 
 class LabelWidget extends StatelessWidget {
-  const LabelWidget({super.key, required this.isActive});
+  const LabelWidget({super.key, required this.isActive, required this.label});
   final bool isActive;
+  final String label;
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -17,7 +18,7 @@ class LabelWidget extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(8),
       child: Text(
-        'Personal',
+        label,
         style: AppStyles.medium12.copyWith(color: AppColors.secondaryColor),
       ),
     );

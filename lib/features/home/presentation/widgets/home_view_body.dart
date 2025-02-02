@@ -47,6 +47,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
               activeIndex: currentIndex,
               controller: controller,
             ),
+            verticalSpace(32),
             Expanded(child: HomeScreensPageView(controller: controller)),
           ],
         ),

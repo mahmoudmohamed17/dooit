@@ -9,27 +9,30 @@ class PinWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 350),
-      decoration: ShapeDecoration(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(labelRadius),
-            side: const BorderSide(color: AppColors.primaryColor),
-          ),
-          color: AppColors.secondaryColor),
-      padding: const EdgeInsets.all(6),
-      child: const Row(
-        spacing: 4,
-        children: [
-          Icon(
-            FontAwesomeIcons.mapPin,
-            size: 16,
-          ),
-          Text(
-            'Pinned',
-            style: AppStyles.medium10,
-          )
-        ],
+    return GestureDetector(
+      
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 350),
+        decoration: ShapeDecoration(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(labelRadius),
+              side: const BorderSide(color: AppColors.primaryColor),
+            ),
+            color: AppColors.secondaryColor),
+        padding: const EdgeInsets.all(6),
+        child: const Row(
+          spacing: 4,
+          children: [
+            Icon(
+              FontAwesomeIcons.mapPin,
+              size: 16,
+            ),
+            Text(
+              'Pinned',
+              style: AppStyles.medium10,
+            )
+          ],
+        ),
       ),
     );
   }

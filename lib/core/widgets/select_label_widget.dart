@@ -25,12 +25,13 @@ class _SelectLabelWidgetState extends State<SelectLabelWidget> {
             setState(() {
               currentIndex = index;
             });
-            widget.onTap ?? (labels[index]);
+            widget.onTap?.call(labels[index]);
           },
           child: Padding(
             padding: const EdgeInsets.only(right: 8),
             child: LabelWidget(
               isActive: currentIndex == index,
+              label: labels[index],
             ),
           ),
         );

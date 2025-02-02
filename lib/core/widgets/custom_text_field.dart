@@ -6,18 +6,17 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     required this.hintText,
-    this.onFieldSubmitted,
     this.onChanged,
   });
   final String hintText;
-  final void Function(String)? onFieldSubmitted;
   final void Function(String)? onChanged;
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: AppStyles.regular16.copyWith(color: AppColors.primaryColor),
+        hintStyle: AppStyles.regular16.copyWith(color: AppColors.subTextColor),
         fillColor: AppColors.borderFillColor,
         contentPadding: const EdgeInsets.all(12),
         filled: true,

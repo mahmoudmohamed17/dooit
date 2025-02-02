@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:to_do_list_app/core/models/category_with_tasks.dart';
+import 'package:to_do_list_app/features/home/presentation/home_cubit/home_cubit.dart';
 import 'package:to_do_list_app/features/home/presentation/widgets/category_item.dart';
 
 class FilledListBody extends StatelessWidget {
@@ -11,8 +14,25 @@ class FilledListBody extends StatelessWidget {
     return ListView.builder(
       itemCount: list.length,
       itemBuilder: (context, index) {
-        return CategoryItem(
-          categoryWithTasks: list[index],
+        return Slidable(
+          startActionPane: ActionPane(motion: const ScrollMotion(), children: [
+            SlidableAction(
+              onPressed: (value) {
+                context
+                    .read<HomeCubit>()
+                    .deleteCategory(categoryId: list[index].category.id);
+              },
+              icon: Icons.delete,
+              label: 'Delete',
+              backgroundColor: Colors.red,
+            )
+          ]),
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 18),
+            child: CategoryItem(
+              categoryWithTasks: list[index],
+            ),
+          ),
         );
       },
     );

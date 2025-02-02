@@ -8,15 +8,13 @@ class HomeCubit extends Cubit<HomeState> {
   final database = AppDatabase();
   List<CategoryWithTasks> categoriesWithTasks = [];
 
-  Future<CategoriesTableData> addCategory(
+  Future<void> addCategory(
       {required String title,
       required String date,
       required String label}) async {
     emit(HomeLoading());
-    var category =
-        await database.addCategory(title: title, label: label, date: date);
+    await database.addCategory(title: title, label: label, date: date);
     fetchCategoriesWithTask();
-    return category;
   }
 
   Future<void> deleteCategory({required int categoryId}) async {

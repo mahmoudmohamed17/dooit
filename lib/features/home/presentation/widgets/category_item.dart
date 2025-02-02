@@ -5,6 +5,7 @@ import 'package:to_do_list_app/core/extensions/navigation_context.dart';
 import 'package:to_do_list_app/core/models/category_with_tasks.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
+import 'package:to_do_list_app/core/utils/lists.dart';
 import 'package:to_do_list_app/features/category_details/presentation/views/category_details_view.dart';
 import 'package:to_do_list_app/features/home/presentation/widgets/date_widget.dart';
 
@@ -16,11 +17,11 @@ class CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed(CategoryDetailsView.id);
+        context.pushNamed(CategoryDetailsView.id,);
       },
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.personalLabelColor,
+          color: labelColor[categoryWithTasks.category.label],
           borderRadius: BorderRadius.circular(categoryItemRadius),
         ),
         padding: const EdgeInsets.all(12),
