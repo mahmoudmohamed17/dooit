@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -17,8 +19,9 @@ class FilledListBody extends StatelessWidget {
         return Slidable(
           startActionPane: ActionPane(motion: const ScrollMotion(), children: [
             SlidableAction(
-              onPressed: (value) {
-                context
+              onPressed: (value) async {
+                log('Delete categoey with ID ${list[index].category.id}');
+                await context
                     .read<HomeCubit>()
                     .deleteCategory(categoryId: list[index].category.id);
               },

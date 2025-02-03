@@ -14,38 +14,16 @@ class HomeCubit extends Cubit<HomeState> {
       required String label}) async {
     emit(HomeLoading());
     await database.addCategory(title: title, label: label, date: date);
-    fetchCategoriesWithTask();
+    getCategoriesWithTask();
   }
 
   Future<void> deleteCategory({required int categoryId}) async {
     emit(HomeLoading());
     await database.deleteCategory(categoryId: categoryId);
-    fetchCategoriesWithTask();
+    getCategoriesWithTask();
   }
 
-  Future<void> addTask({required String title, required int categoryId}) async {
-    await database.addTask(title: title, categoryId: categoryId);
-    fetchCategoriesWithTask();
-  }
-
-  Future<void> deleteTask({required int taskId}) async {
-    await database.deleteTask(taskId: taskId);
-    fetchCategoriesWithTask();
-  }
-
-  Future<void> updateCategory(int categoryId,
-      {String? title, String? label, bool? isPinned}) async {
-    await database.updateCategory(categoryId,
-        title: title, label: label, isPinned: isPinned);
-    fetchCategoriesWithTask();
-  }
-
-  Future<void> updateTask(int taskId, {String? title, bool? isChecked}) async {
-    await database.updateTask(taskId, title: title, isChecked: isChecked);
-    fetchCategoriesWithTask();
-  }
-
-  Future<void> fetchCategoriesWithTask() async {
+  Future<void> getCategoriesWithTask() async {
     emit(HomeLoading());
     categoriesWithTasks = await database.getCategoriesWithTasks();
     emitHomeState();

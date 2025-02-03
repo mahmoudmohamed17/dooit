@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:to_do_list_app/core/models/category_with_tasks.dart';
 import 'package:to_do_list_app/core/services/categories_table.dart';
 import 'package:to_do_list_app/core/services/tasks_table.dart';
+import 'package:rxdart/rxdart.dart';
 part 'app_database.g.dart';
 
 @DriftDatabase(tables: [
@@ -20,11 +21,11 @@ class AppDatabase extends _$AppDatabase {
 
   // as we need the data inside the category when
   // navigating to the details body we return [CategoriesTableData]
-  Future<CategoriesTableData> addCategory(
+  Future<void> addCategory(
       {required String title,
       required String label,
       required String date}) async {
-    return await into(categoriesTable).insertReturning(CategoriesTableCompanion(
+    await into(categoriesTable).insert(CategoriesTableCompanion(
       title: Value(title),
       label: Value(label),
       date: Value(date),
@@ -55,15 +56,41 @@ class AppDatabase extends _$AppDatabase {
     await (delete(tasksTable)..where((task) => task.id.equals(taskId))).go();
   }
 
-  Future<void> updateCategory(int categoryId,
-      {String? title, String? label, bool? isPinned}) async {
-    await (update(categoriesTable)
+  Future<List<TasksTableData>> getTasksByCategory(
+      {required int categoryId}) async {
+    final tasks = (select(tasksTable)
+          ..where((task) => task.categoryId.equals(categoryId)))
+        .get();
+    return tasks;
+  }
+
+  Stream<List<CategoryWithTasks>> watchCategories() {
+    final categoriesStream = select(categoriesTable).watch();
+    final tasksStream = select(tasksTable).watch();
+    return Rx.combineLatest2(categoriesStream, tasksStream,
+        (List<CategoriesTableData> categories, List<TasksTableData> tasks) {
+      return categories.map((category) {
+        final tasksList =
+            tasks.where((task) => task.categoryId == category.id).toList();
+        return CategoryWithTasks(category: category, tasks: tasksList);
+      }).toList();
+    });
+  }
+
+  void updateCategory(int categoryId,
+      {String? title, String? label, bool? isPinned}) {
+    print("Updating category with ID: $categoryId");
+    print("Title: $title, Label: $label, IsPinned: $isPinned");
+    final updatedRows = (update(categoriesTable)
           ..where((category) => category.id.equals(categoryId)))
         .write(CategoriesTableCompanion(
-      title: title != null ? Value(title) : const Value.absent(),
-      label: label != null ? Value(label) : const Value.absent(),
-      isPinned: isPinned != null ? Value(isPinned) : const Value.absent(),
+      title: Value.absentIfNull(title),
+      label: Value.absentIfNull(label),
+      isPinned: Value.absentIfNull(isPinned),
     ));
+    print(
+        'After update isPinned = ${CategoriesTableCompanion(id: Value(categoryId)).isPinned}');
+    print("Updated Rows: $updatedRows");
   }
 
   Future<void> updateTask(int taskId, {String? title, bool? isChecked}) async {
@@ -75,15 +102,14 @@ class AppDatabase extends _$AppDatabase {
   }
 
   Future<List<CategoryWithTasks>> getCategoriesWithTasks() async {
-    final categories = await select(categoriesTable).get();
-    List<CategoryWithTasks> result = [];
-    for (var category in categories) {
+    final categories = await select(categoriesTable).get(); // جلب كل الفئات
+
+    return Future.wait(categories.map((category) async {
       final tasksList = await (select(tasksTable)
             ..where((task) => task.categoryId.equals(category.id)))
           .get();
-      result.add(CategoryWithTasks(category: category, tasks: tasksList));
-    }
-    return result;
+      return CategoryWithTasks(category: category, tasks: tasksList);
+    }));
   }
 
   static QueryExecutor _openConnection() {

@@ -23,6 +23,7 @@ dependencies:
   intl: ^0.18.0
   page_transition: ^2.1.0
   path_provider: ^2.1.5
+  rxdart: ^0.28.0
   shared_preferences: ^2.3.3
 dev_dependencies:
   drift_dev: ^2.22.1

@@ -18,7 +18,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
-    context.read<HomeCubit>().fetchCategoriesWithTask();
+    context.read<HomeCubit>().getCategoriesWithTask();
     super.initState();
   }
 
