@@ -19,6 +19,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     context.read<HomeCubit>().getCategoriesWithTask();
+    context.read<HomeCubit>().getPinnedCategoriesWithTasks();
     super.initState();
   }
 

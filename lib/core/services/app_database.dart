@@ -91,6 +91,16 @@ class AppDatabase extends _$AppDatabase {
     }));
   }
 
+  Future<List<CategoryWithTasks>> getPinnedCategoriesWithTasks() async {
+    final catgories = await select(categoriesTable).get();
+    final pinnedCategories =
+        catgories.where((category) => category.isPinned).toList();
+    return Future.wait(pinnedCategories.map((category) async {
+      final tasks = await getTasksByCategory(categoryId: category.id);
+      return CategoryWithTasks(category: category, tasks: tasks);
+    }));
+  }
+
   static QueryExecutor _openConnection() {
     return driftDatabase(
       name: 'my_database',

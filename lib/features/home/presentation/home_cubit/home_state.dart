@@ -11,3 +11,13 @@ final class HomeFilled extends HomeState {
 
   HomeFilled({required this.categoriesWithTasks});
 }
+
+final class PinnedInitial extends HomeState {}
+
+final class PinnedLoading extends HomeState {}
+
+final class PinnedFilled extends HomeState {
+  final List<CategoryWithTasks> pinnedCategories;
+
+  PinnedFilled({required this.pinnedCategories});
+}

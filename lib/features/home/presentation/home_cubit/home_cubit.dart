@@ -8,6 +8,7 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
   final database = getIt.get<AppDatabase>();
   List<CategoryWithTasks> categoriesWithTasks = [];
+  List<CategoryWithTasks> pinnedCategories = [];
 
   Future<void> addCategory(
       {required String title,
@@ -30,12 +31,38 @@ class HomeCubit extends Cubit<HomeState> {
     emitHomeState();
   }
 
+  Future<void> addToPinned({required CategoryWithTasks category}) async {
+    emit(PinnedLoading());
+    pinnedCategories.add(category);
+    emitPinnedState();
+  }
+
+  Future<void> deleteFromPinned({required CategoryWithTasks category}) async {
+    emit(PinnedLoading());
+    pinnedCategories.remove(category);
+    emitPinnedState();
+  }
+
+  Future<void> getPinnedCategoriesWithTasks() async {
+    emit(PinnedLoading());
+    pinnedCategories = await database.getPinnedCategoriesWithTasks();
+    emitPinnedState();
+  }
+
   void emitHomeState() {
     if (categoriesWithTasks.isEmpty) {
       emit(HomeInitial());
     } else {
       emit(HomeFilled(
           categoriesWithTasks: List.unmodifiable(categoriesWithTasks)));
+    }
+  }
+
+  void emitPinnedState() {
+    if (pinnedCategories.isEmpty) {
+      emit(PinnedInitial());
+    } else {
+      emit(PinnedFilled(pinnedCategories: List.unmodifiable(pinnedCategories)));
     }
   }
 }
