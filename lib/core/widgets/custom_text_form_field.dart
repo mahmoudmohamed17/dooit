@@ -11,12 +11,16 @@ class CustomTextFormField extends StatefulWidget {
     this.hintText = '',
     this.onTap,
     this.isChecked,
+    this.fontWeight,
+    this.fontSize,
   });
   final String? initialValue;
   final String hintText;
   final void Function(String)? onChanged;
   final VoidCallback? onTap;
   final bool? isChecked;
+  final FontWeight? fontWeight;
+  final double? fontSize;
 
   @override
   State<CustomTextFormField> createState() => _CustomTextFormFieldState();
@@ -46,7 +50,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       focusNode: _focusNode,
-      style: AppStyles.regular16.copyWith(
+      style: AppStyles.regular14.copyWith(
+          fontWeight: widget.fontWeight ?? widget.fontWeight,
+          fontSize: widget.fontSize ?? widget.fontSize,
           decoration: widget.isChecked == null
               ? null
               : widget.isChecked!

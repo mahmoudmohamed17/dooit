@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list_app/constants.dart';
 import 'package:to_do_list_app/core/services/get_it_service.dart';
 import 'package:to_do_list_app/core/utils/app_router.dart';
 import 'package:to_do_list_app/core/utils/routes.dart';
@@ -32,10 +33,12 @@ class MyApp extends StatelessWidget {
           create: (context) => CategoryCubit(),
         ),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         title: 'Dooit',
         debugShowCheckedModeBanner: false,
-        initialRoute: Routes.onboardingView,
+        initialRoute: SharedPrefs.getBool(isOnBoardingSeen)
+            ? Routes.homeView
+            : Routes.onboardingView,
         onGenerateRoute: AppRouter.onGeneratedRoute,
       ),
     );

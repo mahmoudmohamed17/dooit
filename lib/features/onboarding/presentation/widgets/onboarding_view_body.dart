@@ -6,6 +6,7 @@ import 'package:to_do_list_app/core/extensions/navigation_context.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 import 'package:to_do_list_app/core/utils/assets.dart';
+import 'package:to_do_list_app/core/utils/shared_prefs.dart';
 import 'package:to_do_list_app/core/utils/spaces.dart';
 import 'package:to_do_list_app/core/widgets/custom_button.dart';
 import 'package:to_do_list_app/features/home/presentation/views/home_view.dart';
@@ -27,10 +28,11 @@ class OnboardingViewBody extends StatelessWidget {
               width: 60,
             ),
             verticalSpace(16),
-             Text(
+            Text(
               'Dooit',
               textAlign: TextAlign.center,
-              style: AppStyles.semibold40.copyWith(color: AppColors.secondaryColor),
+              style: AppStyles.semibold40
+                  .copyWith(color: AppColors.secondaryColor),
             ),
             verticalSpace(16),
             Text(
@@ -45,7 +47,9 @@ class OnboardingViewBody extends StatelessWidget {
                 Expanded(
                   child: CustomButton(
                     label: 'Continue',
-                    onPressed: () {
+                    onPressed: () async {
+                      await SharedPrefs.setBool(isOnBoardingSeen, true);
+                      // ignore: use_build_context_synchronously
                       context.pushReplacementNamed(HomeView.id);
                     },
                   ),

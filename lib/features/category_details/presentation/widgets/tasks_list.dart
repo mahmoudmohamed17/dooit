@@ -31,7 +31,7 @@ class _TasksListState extends State<TasksList> {
                 ),
                 decoration: const BoxDecoration(color: Colors.transparent),
                 child: Row(
-                  spacing: 6,
+                  spacing: 8,
                   children: [
                     GestureDetector(
                         onTap: () {

@@ -7,3 +7,4 @@ const personal = 'Personal';
 const work = 'Work';
 const finance = 'Finance';
 const other = 'Other';
+const isOnBoardingSeen = 'onboard';
