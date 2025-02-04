@@ -1,11 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:to_do_list_app/core/models/category_with_tasks.dart';
 import 'package:to_do_list_app/core/services/app_database.dart';
+import 'package:to_do_list_app/core/services/get_it_service.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial());
-  final database = AppDatabase();
+  final database = getIt.get<AppDatabase>();
   List<CategoryWithTasks> categoriesWithTasks = [];
 
   Future<void> addCategory(

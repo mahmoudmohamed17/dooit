@@ -6,6 +6,6 @@ class PinnedListsViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return EmptyPinnedListsBody();
+    return const EmptyPinnedListsBody();
   }
 }

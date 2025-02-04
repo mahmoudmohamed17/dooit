@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:to_do_list_app/core/services/app_database.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
-import 'package:to_do_list_app/core/widgets/select_label_widget.dart';
+import 'package:to_do_list_app/features/category_details/presentation/manager/cubit/category_cubit.dart';
+import 'package:to_do_list_app/features/category_details/presentation/widgets/category_labels_list_widget.dart';
 
 class LabelsListWidget extends StatelessWidget {
-  const LabelsListWidget({super.key});
-
+  const LabelsListWidget({super.key, required this.category});
+  final CategoriesTableData category;
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 16,
       children: [
-        Text(
+        const Text(
           'Choose a label',
           style: AppStyles.medium20,
         ),
-        SelectLabelWidget(),
+        CategoryLabelsListWidget(
+          category: category,
+          onTap: (value) {
+            context.read<CategoryCubit>().updateCategory(category.id, label: value);
+          },
+        ),
       ],
     );
   }

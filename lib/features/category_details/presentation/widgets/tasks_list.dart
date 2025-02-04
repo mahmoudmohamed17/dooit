@@ -1,54 +1,98 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:to_do_list_app/core/extensions/context_extension.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:to_do_list_app/core/services/app_database.dart';
-import 'package:to_do_list_app/core/utils/app_styles.dart';
+import 'package:to_do_list_app/core/widgets/custom_text_form_field.dart';
 import 'package:to_do_list_app/features/category_details/presentation/manager/cubit/category_cubit.dart';
 
-class TasksList extends StatelessWidget {
-  const TasksList({super.key, required this.tasks, required this.category});
+class TasksList extends StatefulWidget {
+  const TasksList({
+    super.key,
+    required this.tasks,
+    required this.category,
+  });
   final List<TasksTableData> tasks;
   final CategoriesTableData category;
 
   @override
+  State<TasksList> createState() => _TasksListState();
+}
+
+class _TasksListState extends State<TasksList> {
+  String title = '';
+
+  @override
   Widget build(BuildContext context) {
     return ListView(
-      children: tasks
+      children: widget.tasks
           .map((task) => Container(
+                constraints: const BoxConstraints(
+                  maxWidth: double.infinity,
+                ),
                 decoration: const BoxDecoration(color: Colors.transparent),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  spacing: 8,
+                  spacing: 6,
                   children: [
-                    const Icon(
-                      Icons.check_box_outline_blank,
-                    ),
-                    SizedBox(
-                      width: context.width * 0.75,
-                      child: const Text(
-                        'Stay hydrated',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppStyles.regular14,
+                    GestureDetector(
+                        onTap: () {
+                          if (task.isChecked) {
+                            context.read<CategoryCubit>().updateTask(
+                                widget.category.id, task.id,
+                                isChecked: !task.isChecked);
+                          } else {
+                            context.read<CategoryCubit>().updateTask(
+                                widget.category.id, task.id,
+                                isChecked: !task.isChecked);
+                          }
+                        },
+                        child: task.isChecked
+                            ? const Icon(FontAwesomeIcons.solidSquareCheck)
+                            : const Icon(FontAwesomeIcons.squareCheck)),
+                    Expanded(
+                      child: CustomTextFormField(
+                        initialValue: task.title,
+                        hintText: 'To-Do',
+                        isChecked: task.isChecked,
+                        onTap: () {
+                          context.read<CategoryCubit>().updateTask(
+                              widget.category.id, task.categoryId,
+                              title: title);
+                        },
+                        onChanged: (value) {
+                          title = value;
+                        },
                       ),
                     ),
                   ],
                 ),
               ))
           .followedBy([
+        // add new task
         Container(
+          constraints: const BoxConstraints(
+            maxWidth: double.infinity,
+          ),
           decoration: const BoxDecoration(color: Colors.transparent),
           child: Row(
+            spacing: 5,
             children: [
               GestureDetector(
-                onTap: () {
-                  context
-                      .read<CategoryCubit>()
-                      .addTask(category: category, title: 'next');
-                },
-                child: Icon(
-                  Icons.add_box_outlined,
+                onTap: () async {},
+                child: const Icon(
+                  FontAwesomeIcons.squarePlus,
+                ),
+              ),
+              Expanded(
+                child: CustomTextFormField(
+                  hintText: 'To-Do',
+                  onTap: () async {
+                    await context
+                        .read<CategoryCubit>()
+                        .addTask(title: title, category: widget.category);
+                  },
+                  onChanged: (value) {
+                    title = value;
+                  },
                 ),
               ),
             ],

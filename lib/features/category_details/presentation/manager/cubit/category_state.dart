@@ -9,3 +9,5 @@ final class CategoryUpdate extends CategoryState {
 
   CategoryUpdate({required this.tasks});
 }
+
+final class CategoryLaoding extends CategoryState {}

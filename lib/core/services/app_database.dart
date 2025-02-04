@@ -4,7 +4,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:to_do_list_app/core/models/category_with_tasks.dart';
 import 'package:to_do_list_app/core/services/categories_table.dart';
 import 'package:to_do_list_app/core/services/tasks_table.dart';
-import 'package:rxdart/rxdart.dart';
 part 'app_database.g.dart';
 
 @DriftDatabase(tables: [
@@ -64,51 +63,31 @@ class AppDatabase extends _$AppDatabase {
     return tasks;
   }
 
-  Stream<List<CategoryWithTasks>> watchCategories() {
-    final categoriesStream = select(categoriesTable).watch();
-    final tasksStream = select(tasksTable).watch();
-    return Rx.combineLatest2(categoriesStream, tasksStream,
-        (List<CategoriesTableData> categories, List<TasksTableData> tasks) {
-      return categories.map((category) {
-        final tasksList =
-            tasks.where((task) => task.categoryId == category.id).toList();
-        return CategoryWithTasks(category: category, tasks: tasksList);
-      }).toList();
-    });
-  }
-
   void updateCategory(int categoryId,
       {String? title, String? label, bool? isPinned}) {
-    print("Updating category with ID: $categoryId");
-    print("Title: $title, Label: $label, IsPinned: $isPinned");
-    final updatedRows = (update(categoriesTable)
+    (update(categoriesTable)
           ..where((category) => category.id.equals(categoryId)))
         .write(CategoriesTableCompanion(
       title: Value.absentIfNull(title),
       label: Value.absentIfNull(label),
       isPinned: Value.absentIfNull(isPinned),
     ));
-    print(
-        'After update isPinned = ${CategoriesTableCompanion(id: Value(categoryId)).isPinned}');
-    print("Updated Rows: $updatedRows");
   }
 
-  Future<void> updateTask(int taskId, {String? title, bool? isChecked}) async {
-    await (update(tasksTable)..where((task) => task.id.equals(taskId))).write(
+  void updateTask(int taskId, {String? title, bool? isChecked}) {
+    (update(tasksTable)..where((task) => task.id.equals(taskId))).write(
         TasksTableCompanion(
-            title: title != null ? Value(title) : const Value.absent(),
-            isChecked:
-                isChecked != null ? Value(isChecked) : const Value.absent()));
+            title: Value.absentIfNull(title),
+            isChecked: Value.absentIfNull(isChecked)));
   }
 
   Future<List<CategoryWithTasks>> getCategoriesWithTasks() async {
-    final categories = await select(categoriesTable).get(); // جلب كل الفئات
-
+    final categories = await select(categoriesTable).get();
     return Future.wait(categories.map((category) async {
-      final tasksList = await (select(tasksTable)
+      final tasks = await (select(tasksTable)
             ..where((task) => task.categoryId.equals(category.id)))
           .get();
-      return CategoryWithTasks(category: category, tasks: tasksList);
+      return CategoryWithTasks(category: category, tasks: tasks);
     }));
   }
 
@@ -116,8 +95,6 @@ class AppDatabase extends _$AppDatabase {
     return driftDatabase(
       name: 'my_database',
       native: const DriftNativeOptions(
-        // By default, `driftDatabase` from `package:drift_flutter` stores the
-        // database files in `getApplicationDocumentsDirectory()`.
         databaseDirectory: getApplicationSupportDirectory,
       ),
     );

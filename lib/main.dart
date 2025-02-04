@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:to_do_list_app/core/services/get_it_service.dart';
 import 'package:to_do_list_app/core/utils/app_router.dart';
 import 'package:to_do_list_app/core/utils/routes.dart';
 import 'package:to_do_list_app/core/utils/shared_prefs.dart';
@@ -9,6 +10,7 @@ import 'package:to_do_list_app/my_bloc_observer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  setupGetIt();
   await SharedPrefs.init();
   Bloc.observer = MyBlocObserver();
   await Future.delayed(const Duration(seconds: 2), () {

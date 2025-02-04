@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_list_app/core/models/category_with_tasks.dart';
@@ -13,9 +15,11 @@ class CategoryDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<CategoryCubit>().resetState();
     context
         .read<CategoryCubit>()
         .emitCategoryState(categoryWithTasks.category.id);
+    log('Load data of Category ${categoryWithTasks.category.id}\nHas tasks ${categoryWithTasks.tasks}');
     return Scaffold(
       backgroundColor: AppColors.secondaryColor,
       body: CategoryDetailsViewBody(
