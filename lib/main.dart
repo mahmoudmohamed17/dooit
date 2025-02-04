@@ -7,6 +7,7 @@ import 'package:to_do_list_app/core/utils/shared_prefs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_list_app/features/category_details/presentation/manager/cubit/category_cubit.dart';
 import 'package:to_do_list_app/features/home/presentation/home_cubit/home_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/pinned_cubit/pinned_cubit.dart';
 import 'package:to_do_list_app/my_bloc_observer.dart';
 
 void main() async {
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => HomeCubit(),
+        ),
+        BlocProvider(
+          create: (context) => PinnedCubit(),
         ),
         BlocProvider(
           create: (context) => CategoryCubit(),

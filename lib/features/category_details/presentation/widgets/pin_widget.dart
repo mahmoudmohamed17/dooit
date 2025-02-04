@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:to_do_list_app/constants.dart';
-import 'package:to_do_list_app/core/services/app_database.dart';
+import 'package:to_do_list_app/core/models/category_with_tasks.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 import 'package:to_do_list_app/features/category_details/presentation/manager/cubit/category_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/pinned_cubit/pinned_cubit.dart';
 
 class PinWidget extends StatefulWidget {
-  const PinWidget({super.key, required this.category});
-  final CategoriesTableData category;
+  const PinWidget({super.key, required this.categoryWithTasks});
+  final CategoryWithTasks categoryWithTasks;
 
   @override
   State<PinWidget> createState() => _PinWidgetState();
@@ -19,7 +20,7 @@ class _PinWidgetState extends State<PinWidget> {
   late bool isPinned;
   @override
   void initState() {
-    isPinned = widget.category.isPinned;
+    isPinned = widget.categoryWithTasks.category.isPinned;
     super.initState();
   }
 
@@ -30,14 +31,20 @@ class _PinWidgetState extends State<PinWidget> {
         setState(() {
           if (isPinned) {
             isPinned = !isPinned;
+            context.read<CategoryCubit>().updateCategory(
+                widget.categoryWithTasks.category.id,
+                isPinned: isPinned);
             context
-                .read<CategoryCubit>()
-                .updateCategory(widget.category.id, isPinned: isPinned);
+                .read<PinnedCubit>()
+                .addToPinned(category: widget.categoryWithTasks);
           } else {
             isPinned = !isPinned;
+            context.read<CategoryCubit>().updateCategory(
+                widget.categoryWithTasks.category.id,
+                isPinned: isPinned);
             context
-                .read<CategoryCubit>()
-                .updateCategory(widget.category.id, isPinned: isPinned);
+                .read<PinnedCubit>()
+                .addToPinned(category: widget.categoryWithTasks);
           }
         });
       },

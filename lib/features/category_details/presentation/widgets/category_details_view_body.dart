@@ -37,7 +37,7 @@ class _CategoryDetailsViewBodyState extends State<CategoryDetailsViewBody> {
           children: [
             verticalSpace(16),
             CategoryDetailsAppBar(
-              category: widget.categoryWithTasks.category,
+              categoryWithTasks: widget.categoryWithTasks,
             ),
             verticalSpace(24),
             Row(

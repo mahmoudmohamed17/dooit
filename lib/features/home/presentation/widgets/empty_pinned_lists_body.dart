@@ -3,7 +3,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:to_do_list_app/core/extensions/context_extension.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 import 'package:to_do_list_app/core/utils/assets.dart';
-import 'package:to_do_list_app/core/widgets/custom_button.dart';
 
 class EmptyPinnedListsBody extends StatelessWidget {
   const EmptyPinnedListsBody({super.key});
@@ -18,10 +17,6 @@ class EmptyPinnedListsBody extends StatelessWidget {
         const Text(
           'Ooops! No pinned list yet...',
           style: AppStyles.semibold20,
-        ),
-        CustomButton(
-          label: '+ New List',
-          onPressed: () {},
         ),
       ],
     );
