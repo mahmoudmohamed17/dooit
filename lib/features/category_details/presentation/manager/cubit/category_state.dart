@@ -5,9 +5,9 @@ class CategoryState {}
 final class CategoryInitial extends CategoryState {}
 
 final class CategoryUpdate extends CategoryState {
-  final List<TasksTableData> tasks;
+  final CategoryWithTasks categoryWithTasks;
 
-  CategoryUpdate({required this.tasks});
+  CategoryUpdate({required this.categoryWithTasks});
 }
 
 final class CategoryLaoding extends CategoryState {}

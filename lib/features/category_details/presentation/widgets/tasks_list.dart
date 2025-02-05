@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:to_do_list_app/core/services/app_database.dart';
 import 'package:to_do_list_app/core/widgets/custom_text_form_field.dart';
 import 'package:to_do_list_app/features/category_details/presentation/manager/cubit/category_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/home_cubit/home_cubit.dart';
 
 class TasksList extends StatefulWidget {
   const TasksList({
@@ -44,6 +45,7 @@ class _TasksListState extends State<TasksList> {
                                 widget.category.id, task.id,
                                 isChecked: !task.isChecked);
                           }
+                          context.read<HomeCubit>().getCategoriesWithTask();
                         },
                         child: task.isChecked
                             ? const Icon(FontAwesomeIcons.solidSquareCheck)
@@ -57,6 +59,7 @@ class _TasksListState extends State<TasksList> {
                           context.read<CategoryCubit>().updateTask(
                               widget.category.id, task.categoryId,
                               title: title);
+                          context.read<HomeCubit>().getCategoriesWithTask();
                         },
                         onChanged: (value) {
                           title = value;
@@ -85,10 +88,11 @@ class _TasksListState extends State<TasksList> {
               Expanded(
                 child: CustomTextFormField(
                   hintText: 'To-Do',
-                  onTap: () async {
-                    await context
+                  onTap: () {
+                    context
                         .read<CategoryCubit>()
                         .addTask(title: title, category: widget.category);
+                    context.read<HomeCubit>().getCategoriesWithTask();
                   },
                   onChanged: (value) {
                     title = value;

@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:to_do_list_app/core/services/app_database.dart';
 import 'package:to_do_list_app/core/widgets/custom_text_form_field.dart';
 import 'package:to_do_list_app/features/category_details/presentation/manager/cubit/category_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/home_cubit/home_cubit.dart';
 
 class TasksListEmptyBody extends StatefulWidget {
   const TasksListEmptyBody({
@@ -33,10 +34,11 @@ class _TasksListEmptyBodyState extends State<TasksListEmptyBody> {
             Expanded(
               child: CustomTextFormField(
                 hintText: 'To-Do',
-                onTap: () async {
-                  await context
+                onTap: () {
+                  context
                       .read<CategoryCubit>()
                       .addTask(category: widget.category, title: title);
+                  context.read<HomeCubit>().getCategoriesWithTask();
                 },
                 onChanged: (value) {
                   title = value;

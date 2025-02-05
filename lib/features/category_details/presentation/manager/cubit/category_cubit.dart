@@ -1,6 +1,5 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
+import 'package:to_do_list_app/core/models/category_with_tasks.dart';
 import 'package:to_do_list_app/core/services/app_database.dart';
 import 'package:to_do_list_app/core/services/get_it_service.dart';
 part 'category_state.dart';
@@ -31,7 +30,6 @@ class CategoryCubit extends Cubit<CategoryState> {
       {String? title, String? label, bool? isPinned}) {
     database.updateCategory(categoryId,
         title: title, label: label, isPinned: isPinned);
-    emitCategoryState(categoryId);
   }
 
   void updateTask(int categoryId, int taskId,
@@ -40,13 +38,16 @@ class CategoryCubit extends Cubit<CategoryState> {
     emitCategoryState(categoryId);
   }
 
+  Future<CategoryWithTasks> getCategoryWithTasks({required int id}) async {
+    return await database.getCategoryWithTasks(id: id);
+  }
+
   void emitCategoryState(int categoryId) async {
-    var tasks = await getTasks(categoryId: categoryId);
-    log('Get tasks of category $categoryId\nAre: $tasks');
-    if (tasks.isEmpty) {
+    var category = await getCategoryWithTasks(id: categoryId);
+    if (category.tasks.isEmpty) {
       emit(CategoryInitial());
     } else {
-      emit(CategoryUpdate(tasks: List.from(tasks)));
+      emit(CategoryUpdate(categoryWithTasks: category));
     }
   }
 

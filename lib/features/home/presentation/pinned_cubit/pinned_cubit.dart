@@ -8,20 +8,23 @@ class PinnedCubit extends Cubit<PinnedState> {
   PinnedCubit() : super(PinnedInitial());
   final database = getIt.get<AppDatabase>();
   List<CategoryWithTasks> pinnedCategories = [];
-  Future<void> addToPinned({required CategoryWithTasks category}) async {
+  Future<void> addToPinned(
+      {required CategoryWithTasks categoryWithTasks}) async {
     emit(PinnedLoading());
-    pinnedCategories.add(category);
-    emitPinnedState();
+    pinnedCategories.add(categoryWithTasks);
+    database.updateCategory(categoryWithTasks.category.id, isPinned: true);
+    await getPinnedCategoriesWithTasks();
   }
 
-  Future<void> deleteFromPinned({required CategoryWithTasks category}) async {
+  Future<void> deleteFromPinned(
+      {required CategoryWithTasks categoryWithTasks}) async {
     emit(PinnedLoading());
-    pinnedCategories.remove(category);
-    emitPinnedState();
+    pinnedCategories.remove(categoryWithTasks);
+    database.updateCategory(categoryWithTasks.category.id, isPinned: false);
+    await getPinnedCategoriesWithTasks();
   }
 
   Future<void> getPinnedCategoriesWithTasks() async {
-    emit(PinnedLoading());
     pinnedCategories = await database.getPinnedCategoriesWithTasks();
     emitPinnedState();
   }

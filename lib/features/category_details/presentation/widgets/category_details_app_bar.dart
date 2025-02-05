@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_list_app/core/extensions/navigation_context.dart';
 import 'package:to_do_list_app/core/models/category_with_tasks.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/features/category_details/presentation/widgets/pin_widget.dart';
-import 'package:to_do_list_app/features/home/presentation/home_cubit/home_cubit.dart';
 
 class CategoryDetailsAppBar extends StatelessWidget {
   const CategoryDetailsAppBar({
@@ -19,9 +17,7 @@ class CategoryDetailsAppBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
-          onTap: () async {
-            await context.read<HomeCubit>().getCategoriesWithTask();
-            // ignore: use_build_context_synchronously
+          onTap: () {
             context.pop();
           },
           child: const Icon(

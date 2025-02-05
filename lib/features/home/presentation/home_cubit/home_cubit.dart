@@ -25,7 +25,6 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getCategoriesWithTask() async {
-    emit(HomeLoading());
     categoriesWithTasks = await database.getCategoriesWithTasks();
     emitHomeState();
   }

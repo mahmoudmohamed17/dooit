@@ -19,7 +19,7 @@ class TasksListBody extends StatelessWidget {
         if (state is CategoryUpdate) {
           return TasksList(
             category: categoryWithTasks.category,
-            tasks: state.tasks,
+            tasks: state.categoryWithTasks.tasks,
           );
         } else {
           return TasksListEmptyBody(

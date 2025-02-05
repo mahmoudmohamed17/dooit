@@ -101,6 +101,15 @@ class AppDatabase extends _$AppDatabase {
     }));
   }
 
+  Future<CategoryWithTasks> getCategoryWithTasks({required int id}) async {
+    final category = await (select(categoriesTable)
+          ..where((c) => c.id.equals(id)))
+        .getSingle();
+    final tasks =
+        await (select(tasksTable)..where((t) => t.categoryId.equals(id))).get();
+    return CategoryWithTasks(category: category, tasks: tasks);
+  }
+
   static QueryExecutor _openConnection() {
     return driftDatabase(
       name: 'my_database',
