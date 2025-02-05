@@ -18,6 +18,10 @@ class Assets {
   /// assets/images/create_to_do.svg
   static const String imagesCreateToDo = "assets/images/create_to_do.svg";
 
+  /// Assets for imagesNoResults
+  /// assets/images/no_results.svg
+  static const String imagesNoResults = "assets/images/no_results.svg";
+
   /// Assets for imagesOnBoard
   /// assets/images/on-board.jpg
   static const String imagesOnBoard = "assets/images/on-board.jpg";

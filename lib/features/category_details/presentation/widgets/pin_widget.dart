@@ -5,8 +5,8 @@ import 'package:to_do_list_app/constants.dart';
 import 'package:to_do_list_app/core/models/category_with_tasks.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
-import 'package:to_do_list_app/features/home/presentation/home_cubit/home_cubit.dart';
-import 'package:to_do_list_app/features/home/presentation/pinned_cubit/pinned_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/manager/home_cubit/home_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/manager/pinned_cubit/pinned_cubit.dart';
 
 class PinWidget extends StatefulWidget {
   const PinWidget({super.key, required this.categoryWithTasks});

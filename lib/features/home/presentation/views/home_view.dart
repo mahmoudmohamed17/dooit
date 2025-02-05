@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/custom_buttom_sheet.dart';
 import 'package:to_do_list_app/core/utils/routes.dart';
-import 'package:to_do_list_app/features/home/presentation/home_cubit/home_cubit.dart';
-import 'package:to_do_list_app/features/home/presentation/pinned_cubit/pinned_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/manager/home_cubit/home_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/manager/pinned_cubit/pinned_cubit.dart';
 import 'package:to_do_list_app/features/home/presentation/widgets/home_view_body.dart';
 
 class HomeView extends StatefulWidget {

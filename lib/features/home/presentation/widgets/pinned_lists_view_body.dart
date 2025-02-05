@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:to_do_list_app/features/home/presentation/pinned_cubit/pinned_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/manager/pinned_cubit/pinned_cubit.dart';
 import 'package:to_do_list_app/features/home/presentation/widgets/empty_pinned_lists_body.dart';
 import 'package:to_do_list_app/features/home/presentation/widgets/filled_pinned_list.dart';
 

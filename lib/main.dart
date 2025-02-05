@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list_app/constants.dart';
 import 'package:to_do_list_app/core/services/get_it_service.dart';
+import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_router.dart';
 import 'package:to_do_list_app/core/utils/routes.dart';
 import 'package:to_do_list_app/core/utils/shared_prefs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_list_app/features/category_details/presentation/manager/cubit/category_cubit.dart';
-import 'package:to_do_list_app/features/home/presentation/home_cubit/home_cubit.dart';
-import 'package:to_do_list_app/features/home/presentation/pinned_cubit/pinned_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/manager/home_cubit/home_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/manager/pinned_cubit/pinned_cubit.dart';
 import 'package:to_do_list_app/my_bloc_observer.dart';
 
 void main() async {
@@ -39,6 +40,9 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Dooit',
+        theme: ThemeData(
+          scaffoldBackgroundColor: AppColors.secondaryColor,
+        ),
         debugShowCheckedModeBanner: false,
         initialRoute: SharedPrefs.getBool(isOnBoardingSeen)
             ? Routes.homeView
