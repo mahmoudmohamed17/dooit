@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:to_do_list_app/core/services/app_database.dart';
 import 'package:to_do_list_app/core/widgets/custom_text_form_field.dart';
 import 'package:to_do_list_app/features/category_details/presentation/manager/cubit/category_cubit.dart';
-import 'package:to_do_list_app/features/home/presentation/manager/home_cubit/home_cubit.dart';
 
 class TasksList extends StatefulWidget {
   const TasksList({
@@ -26,80 +26,93 @@ class _TasksListState extends State<TasksList> {
   Widget build(BuildContext context) {
     return ListView(
       children: widget.tasks
-          .map((task) => Container(
-                constraints: const BoxConstraints(
-                  maxWidth: double.infinity,
-                ),
-                decoration: const BoxDecoration(color: Colors.transparent),
-                child: Row(
-                  spacing: 8,
-                  children: [
-                    GestureDetector(
-                        onTap: () {
-                          if (task.isChecked) {
+          .map((task) => Slidable(
+                startActionPane:
+                    ActionPane(motion: const ScrollMotion(), children: [
+                  SlidableAction(
+                    onPressed: (value) {
+                      context.read<CategoryCubit>().deleteTask(
+                          taskId: task.categoryId, category: widget.category);
+                    },
+                    label: 'Delete',
+                    icon: Icons.delete,
+                    backgroundColor: Colors.red,
+                  )
+                ]),
+                child: Container(
+                  constraints: const BoxConstraints(
+                    maxWidth: double.infinity,
+                  ),
+                  decoration: const BoxDecoration(color: Colors.transparent),
+                  child: Row(
+                    spacing: 8,
+                    children: [
+                      GestureDetector(
+                          onTap: () {
+                            if (task.isChecked) {
+                              context.read<CategoryCubit>().updateTask(
+                                  widget.category.id, task.id,
+                                  isChecked: !task.isChecked);
+                            } else {
+                              context.read<CategoryCubit>().updateTask(
+                                  widget.category.id, task.id,
+                                  isChecked: !task.isChecked);
+                            }
+                          },
+                          child: task.isChecked
+                              ? const Icon(FontAwesomeIcons.solidSquareCheck)
+                              : const Icon(FontAwesomeIcons.squareCheck)),
+                      Expanded(
+                        child: CustomTextFormField(
+                          initialValue: task.title,
+                          hintText: 'To-Do',
+                          isChecked: task.isChecked,
+                          onTap: () {
                             context.read<CategoryCubit>().updateTask(
                                 widget.category.id, task.id,
-                                isChecked: !task.isChecked);
-                          } else {
-                            context.read<CategoryCubit>().updateTask(
-                                widget.category.id, task.id,
-                                isChecked: !task.isChecked);
-                          }
-                          context.read<HomeCubit>().getCategoriesWithTask();
-                        },
-                        child: task.isChecked
-                            ? const Icon(FontAwesomeIcons.solidSquareCheck)
-                            : const Icon(FontAwesomeIcons.squareCheck)),
-                    Expanded(
-                      child: CustomTextFormField(
-                        initialValue: task.title,
-                        hintText: 'To-Do',
-                        isChecked: task.isChecked,
-                        onTap: () {
-                          context.read<CategoryCubit>().updateTask(
-                              widget.category.id, task.categoryId,
-                              title: title);
-                          context.read<HomeCubit>().getCategoriesWithTask();
-                        },
-                        onChanged: (value) {
-                          title = value;
-                        },
+                                title: title);
+                          },
+                          onChanged: (value) {
+                            title = value;
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ))
           .followedBy([
         // add new task
-        Container(
-          constraints: const BoxConstraints(
-            maxWidth: double.infinity,
-          ),
-          decoration: const BoxDecoration(color: Colors.transparent),
-          child: Row(
-            spacing: 5,
-            children: [
-              GestureDetector(
-                onTap: () async {},
-                child: const Icon(
-                  FontAwesomeIcons.squarePlus,
+        Slidable(
+          child: Container(
+            constraints: const BoxConstraints(
+              maxWidth: double.infinity,
+            ),
+            decoration: const BoxDecoration(color: Colors.transparent),
+            child: Row(
+              spacing: 5,
+              children: [
+                GestureDetector(
+                  onTap: () async {},
+                  child: const Icon(
+                    FontAwesomeIcons.squarePlus,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: CustomTextFormField(
-                  hintText: 'To-Do',
-                  onTap: () {
-                    context
-                        .read<CategoryCubit>()
-                        .addTask(title: title, category: widget.category);
-                    context.read<HomeCubit>().getCategoriesWithTask();
-                  },
-                  onChanged: (value) {
-                    title = value;
-                  },
+                Expanded(
+                  child: CustomTextFormField(
+                    hintText: 'To-Do',
+                    onTap: () {
+                      context
+                          .read<CategoryCubit>()
+                          .addTask(title: title, category: widget.category);
+                    },
+                    onChanged: (value) {
+                      title = value;
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         )
       ]).toList(),

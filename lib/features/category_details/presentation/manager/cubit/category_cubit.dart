@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:to_do_list_app/core/models/category_with_tasks.dart';
 import 'package:to_do_list_app/core/services/app_database.dart';
@@ -34,16 +36,19 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   void updateTask(int categoryId, int taskId,
       {String? title, bool? isChecked}) {
+    log('The new checkbox value is $isChecked');
+    log('The new title value is $title');
+
     database.updateTask(taskId, title: title, isChecked: isChecked);
     emitCategoryState(categoryId);
   }
 
-  Future<CategoryWithTasks> getCategoryWithTasks({required int id}) async {
+  Future<CategoryWithTasks> loadCategoryData({required int id}) async {
     return await database.getCategoryWithTasks(id: id);
   }
 
   void emitCategoryState(int categoryId) async {
-    var category = await getCategoryWithTasks(id: categoryId);
+    var category = await loadCategoryData(id: categoryId);
     if (category.tasks.isEmpty) {
       emit(CategoryInitial());
     } else {

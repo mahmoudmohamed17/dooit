@@ -46,13 +46,14 @@ Future<dynamic> customButtomSheet(BuildContext context) {
                   },
                 ),
                 ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       var time = DateTime.now();
                       var date = '${time.day}-${time.month}-${time.year}';
-                      context.read<HomeCubit>().addCategory(
+                      await context.read<HomeCubit>().addCategory(
                           title: title ?? '',
                           date: date,
                           label: label ?? personal);
+                      // ignore: use_build_context_synchronously
                       context.pop();
                     },
                     style: ElevatedButton.styleFrom(

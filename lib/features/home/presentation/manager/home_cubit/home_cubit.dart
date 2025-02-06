@@ -42,4 +42,8 @@ class HomeCubit extends Cubit<HomeState> {
           categoriesWithTasks: List.unmodifiable(categoriesWithTasks)));
     }
   }
+
+  void resetState() {
+    emit(HomeInitial());
+  }
 }
