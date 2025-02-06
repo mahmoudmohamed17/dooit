@@ -15,7 +15,7 @@ class EmptySearchBody extends StatelessWidget {
         children: [
           SvgPicture.asset(Assets.imagesNoResults, height: context.height * 0.32, width: context.width * 0.32,),
           const Text(
-            'Sorry, we couldn\'t found any matching results!',
+            'Sorry, we couldn\'t find any matching results!',
             textAlign: TextAlign.center,
             style: AppStyles.semibold16,
           )

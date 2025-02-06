@@ -20,11 +20,11 @@ class AppDatabase extends _$AppDatabase {
 
   // as we need the data inside the category when
   // navigating to the details body we return [CategoriesTableData]
-  Future<void> addCategory(
+  Future<CategoriesTableData> addCategory(
       {required String title,
       required String label,
       required String date}) async {
-    await into(categoriesTable).insert(CategoriesTableCompanion(
+    return into(categoriesTable).insertReturning(CategoriesTableCompanion(
       title: Value(title),
       label: Value(label),
       date: Value(date),

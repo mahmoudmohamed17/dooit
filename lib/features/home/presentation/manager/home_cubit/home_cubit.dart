@@ -14,16 +14,21 @@ class HomeCubit extends Cubit<HomeState> {
       required String date,
       required String label}) async {
     emit(HomeLoading());
-    await database.addCategory(title: title, label: label, date: date);
-    getCategoriesWithTask();
+    var category =
+        await database.addCategory(title: title, label: label, date: date);
+    categoriesWithTasks.add(CategoryWithTasks(category: category, tasks: []));
+    emitHomeState();
   }
 
-  Future<void> deleteCategory({required int categoryId}) async {
+  Future<void> deleteCategory(
+      {required CategoryWithTasks categoryWithTasks}) async {
     emit(HomeLoading());
-    await database.deleteCategory(categoryId: categoryId);
-    getCategoriesWithTask();
+    categoriesWithTasks.remove(categoryWithTasks);
+    await database.deleteCategory(categoryId: categoryWithTasks.category.id);
+    emitHomeState();
   }
 
+  // only called when the app is launched
   Future<void> getCategoriesWithTask() async {
     categoriesWithTasks = await database.getCategoriesWithTasks();
     emitHomeState();

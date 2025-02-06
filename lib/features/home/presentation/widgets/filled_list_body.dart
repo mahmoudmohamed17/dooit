@@ -20,7 +20,7 @@ class FilledListBody extends StatelessWidget {
               onPressed: (value) async {
                 await context
                     .read<HomeCubit>()
-                    .deleteCategory(categoryId: list[index].category.id);
+                    .deleteCategory(categoryWithTasks: list[index]);
               },
               icon: Icons.delete,
               label: 'Delete',
