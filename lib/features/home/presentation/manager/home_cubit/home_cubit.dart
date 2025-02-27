@@ -20,12 +20,22 @@ class HomeCubit extends Cubit<HomeState> {
     emitHomeState();
   }
 
-  Future<void> deleteCategory(
-      {required CategoryWithTasks categoryWithTasks}) async {
+  void deleteCategory({required CategoryWithTasks categoryWithTasks}) {
     emit(HomeLoading());
     categoriesWithTasks.remove(categoryWithTasks);
-    await database.deleteCategory(categoryId: categoryWithTasks.category.id);
     emitHomeState();
+  }
+
+  Future<void> addToDatabase(
+      {required String title,
+      required String date,
+      required String label}) async {
+    await database.addCategory(title: title, label: label, date: date);
+  }
+
+  Future<void> removeFromDatabase(
+      {required CategoryWithTasks categoryWithTasks}) async {
+    await database.deleteCategory(categoryId: categoryWithTasks.category.id);
   }
 
   // only called when the app is launched

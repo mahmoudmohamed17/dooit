@@ -24,7 +24,7 @@ class AppDatabase extends _$AppDatabase {
       {required String title,
       required String label,
       required String date}) async {
-    return into(categoriesTable).insertReturning(CategoriesTableCompanion(
+    return await into(categoriesTable).insertReturning(CategoriesTableCompanion(
       title: Value(title),
       label: Value(label),
       date: Value(date),

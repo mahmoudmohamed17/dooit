@@ -18,9 +18,12 @@ class FilledListBody extends StatelessWidget {
           startActionPane: ActionPane(motion: const ScrollMotion(), children: [
             SlidableAction(
               onPressed: (value) async {
-                await context
+                context
                     .read<HomeCubit>()
                     .deleteCategory(categoryWithTasks: list[index]);
+                await context
+                    .read<HomeCubit>()
+                    .removeFromDatabase(categoryWithTasks: list[index]);
               },
               icon: Icons.delete,
               label: 'Delete',
