@@ -5,6 +5,6 @@ class TasksTable extends Table {
   IntColumn get id => integer().autoIncrement()(); // unique for each task
   IntColumn get categoryId => integer().references(CategoriesTable, #id,
       onDelete: KeyAction.cascade)(); // to link each task for its category
-  TextColumn get title => text().withLength(min: 1, max: 100)();
+  TextColumn get title => text()();
   BoolColumn get isChecked => boolean().withDefault(const Constant(false))();
 }

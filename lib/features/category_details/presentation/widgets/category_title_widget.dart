@@ -5,6 +5,7 @@ import 'package:to_do_list_app/core/utils/app_styles.dart';
 import 'package:to_do_list_app/core/widgets/custom_text_form_field.dart';
 import 'package:to_do_list_app/features/category_details/presentation/manager/cubit/category_cubit.dart';
 import 'package:to_do_list_app/features/home/presentation/manager/home_cubit/home_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/manager/pinned_cubit/pinned_cubit.dart';
 
 class CategoryTitleWidget extends StatefulWidget {
   const CategoryTitleWidget({super.key, required this.categoryWithTasks});
@@ -31,6 +32,7 @@ class _CategoryTitleWidgetState extends State<CategoryTitleWidget> {
                   widget.categoryWithTasks.category.id,
                   title: title);
               context.read<HomeCubit>().getCategoriesWithTask();
+              context.read<PinnedCubit>().getPinnedCategoriesWithTasks();
             },
             onChanged: (value) {
               title = value;

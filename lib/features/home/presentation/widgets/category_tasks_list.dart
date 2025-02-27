@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_list_app/core/services/app_database.dart';
-import 'package:to_do_list_app/features/home/presentation/widgets/task_item.dart';
+import 'package:to_do_list_app/features/home/presentation/widgets/task_home_item.dart';
 
 class CategoryTasksList extends StatelessWidget {
   const CategoryTasksList({super.key, required this.tasks});
@@ -13,7 +13,7 @@ class CategoryTasksList extends StatelessWidget {
           .map((tasks) =>
               Padding(
                 padding: const EdgeInsets.only(bottom: 16),
-                child: TaskItem(isChecked: tasks.isChecked, title: tasks.title),
+                child: TaskHomeItem(isChecked: tasks.isChecked, title: tasks.title),
               ))
           .toList(),
     );

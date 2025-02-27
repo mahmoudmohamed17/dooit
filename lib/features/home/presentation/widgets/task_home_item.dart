@@ -3,8 +3,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:to_do_list_app/core/extensions/context_extension.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 
-class TaskItem extends StatelessWidget {
-  const TaskItem({super.key, required this.isChecked, required this.title});
+class TaskHomeItem extends StatelessWidget {
+  const TaskHomeItem({super.key, required this.isChecked, required this.title});
   final bool isChecked;
   final String title;
 

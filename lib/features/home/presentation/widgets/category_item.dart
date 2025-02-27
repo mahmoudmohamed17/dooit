@@ -31,12 +31,14 @@ class _CategoryItemState extends State<CategoryItem> {
             arguments: widget.categoryWithTasks);
       },
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 350),
-        curve: Curves.easeInOut,
-        decoration: BoxDecoration(
-          color: labelColor[widget.categoryWithTasks.category.label],
-          borderRadius: BorderRadius.circular(categoryItemRadius),
-        ),
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeIn,
+        decoration: ShapeDecoration(
+            color: labelColor[widget.categoryWithTasks.category.label],
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(categoryItemRadius),
+                side: BorderSide(
+                    color: _isExpanded ? Colors.black : Colors.transparent))),
         padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
