@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:to_do_list_app/core/models/category_with_tasks.dart';
 import 'package:to_do_list_app/features/home/presentation/manager/home_cubit/home_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/manager/pinned_cubit/pinned_cubit.dart';
 import 'package:to_do_list_app/features/home/presentation/widgets/category_item.dart';
 
 class FilledListBody extends StatelessWidget {
@@ -21,6 +22,9 @@ class FilledListBody extends StatelessWidget {
                 context
                     .read<HomeCubit>()
                     .deleteCategory(categoryWithTasks: list[index]);
+                context
+                    .read<PinnedCubit>()
+                    .deleteFromPinned(categoryWithTasks: list[index]);
                 await context
                     .read<HomeCubit>()
                     .removeFromDatabase(categoryWithTasks: list[index]);
