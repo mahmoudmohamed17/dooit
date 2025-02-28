@@ -48,6 +48,7 @@ class _CustomTextFormFieldState extends State<AddTaskTextField> {
       onChanged: widget.onChanged,
       maxLines: null,
       minLines: 1,
+      textInputAction: TextInputAction.newline,
       keyboardType: TextInputType.multiline,
       decoration: InputDecoration(
         hintStyle: AppStyles.regular16.copyWith(color: AppColors.subTextColor),
@@ -66,7 +67,6 @@ class _CustomTextFormFieldState extends State<AddTaskTextField> {
               )
             : null,
         hintText: 'To-Do',
-        contentPadding: EdgeInsets.zero,
         enabledBorder: buildBorder(),
         focusedBorder: buildBorder(),
       ),

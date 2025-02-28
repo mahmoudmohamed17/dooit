@@ -5,7 +5,9 @@ import 'package:to_do_list_app/core/services/get_it_service.dart';
 part 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(HomeInitial());
+  HomeCubit() : super(HomeInitial()) {
+    getCategoriesWithTask();
+  }
   final database = getIt.get<AppDatabase>();
   List<CategoryWithTasks> categoriesWithTasks = [];
 
@@ -17,13 +19,13 @@ class HomeCubit extends Cubit<HomeState> {
     var category =
         await database.addCategory(title: title, label: label, date: date);
     categoriesWithTasks.add(CategoryWithTasks(category: category, tasks: []));
-    emitHomeState();
+    getCategoriesWithTask();
   }
 
   void deleteCategory({required CategoryWithTasks categoryWithTasks}) {
     emit(HomeLoading());
     categoriesWithTasks.remove(categoryWithTasks);
-    emitHomeState();
+    getCategoriesWithTask();
   }
 
   Future<void> addToDatabase(
@@ -39,8 +41,10 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   // only called when the app is launched
-  Future<void> getCategoriesWithTask() async {
-    categoriesWithTasks = await database.getCategoriesWithTasks();
+  void getCategoriesWithTask() {
+    database.watchCategoriesTable().listen((data) {
+      categoriesWithTasks = data;
+    });
     emitHomeState();
   }
 

@@ -63,6 +63,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       maxLines: null,
       minLines: 1,
       keyboardType: TextInputType.multiline,
+      textInputAction: TextInputAction.newline,
       initialValue: widget.initialValue,
       decoration: InputDecoration(
         hintText: widget.hintText.isEmpty ? '' : widget.hintText,

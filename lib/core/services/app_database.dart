@@ -81,14 +81,13 @@ class AppDatabase extends _$AppDatabase {
             isChecked: Value.absentIfNull(isChecked)));
   }
 
-  Future<List<CategoryWithTasks>> getCategoriesWithTasks() async {
-    final categories = await select(categoriesTable).get();
-    return Future.wait(categories.map((category) async {
-      final tasks = await (select(tasksTable)
-            ..where((task) => task.categoryId.equals(category.id)))
-          .get();
-      return CategoryWithTasks(category: category, tasks: tasks);
-    }));
+  Stream<List<CategoryWithTasks>> watchCategoriesTable() {
+    return select(categoriesTable).watch().asyncMap((categories) async {
+      return Future.wait(categories.map((category) async {
+        final tasks = await getTasksByCategory(categoryId: category.id);
+        return CategoryWithTasks(category: category, tasks: tasks);
+      }));
+    });
   }
 
   Future<List<CategoryWithTasks>> getPinnedCategoriesWithTasks() async {

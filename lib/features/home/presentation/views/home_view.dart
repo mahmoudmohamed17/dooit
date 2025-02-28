@@ -5,24 +5,11 @@ import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/custom_buttom_sheet.dart';
 import 'package:to_do_list_app/core/utils/routes.dart';
 import 'package:to_do_list_app/features/home/presentation/manager/home_cubit/home_cubit.dart';
-import 'package:to_do_list_app/features/home/presentation/manager/pinned_cubit/pinned_cubit.dart';
 import 'package:to_do_list_app/features/home/presentation/widgets/home_view_body.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends StatelessWidget {
   const HomeView({super.key});
   static const String id = Routes.homeView;
-
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  @override
-  void initState() {
-    context.read<HomeCubit>().getCategoriesWithTask();
-    context.read<PinnedCubit>().getPinnedCategoriesWithTasks();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

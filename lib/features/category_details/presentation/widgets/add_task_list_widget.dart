@@ -19,7 +19,6 @@ class _TaskListItemState extends State<AddTaskListWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(
-      spacing: 8,
       children: [
         GestureDetector(
           child: const Icon(

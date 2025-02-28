@@ -5,7 +5,9 @@ import 'package:to_do_list_app/core/services/get_it_service.dart';
 part 'pinned_state.dart';
 
 class PinnedCubit extends Cubit<PinnedState> {
-  PinnedCubit() : super(PinnedInitial());
+  PinnedCubit() : super(PinnedInitial()) {
+    getPinnedCategoriesWithTasks();
+  }
   final database = getIt.get<AppDatabase>();
   List<CategoryWithTasks> pinnedCategories = [];
   Future<void> addToPinned(

@@ -38,7 +38,6 @@ class _TaskListItemState extends State<TaskListItem> {
                 ? const Icon(FontAwesomeIcons.solidSquareCheck)
                 : const Icon(FontAwesomeIcons.squareCheck)),
         Expanded(
-          flex: 7,
           child: CustomTextFormField(
             initialValue: widget.task.title,
             hintText: 'To-Do',
