@@ -3,34 +3,26 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 
-class CustomTextFormField extends StatefulWidget {
-  const CustomTextFormField({
+class AddTaskTextField extends StatefulWidget {
+  const AddTaskTextField({
     super.key,
-    this.initialValue = '',
     this.onChanged,
-    this.hintText = '',
     this.onTap,
-    this.isChecked,
-    this.fontWeight,
-    this.fontSize,
   });
-  final String? initialValue;
-  final String hintText;
   final void Function(String)? onChanged;
   final VoidCallback? onTap;
-  final bool? isChecked;
-  final FontWeight? fontWeight;
-  final double? fontSize;
 
   @override
-  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
+  State<AddTaskTextField> createState() => _CustomTextFormFieldState();
 }
 
-class _CustomTextFormFieldState extends State<CustomTextFormField> {
+class _CustomTextFormFieldState extends State<AddTaskTextField> {
+  late TextEditingController _controller;
   late FocusNode _focusNode;
   bool _isTyping = false;
   @override
   void initState() {
+    _controller = TextEditingController();
     _focusNode = FocusNode();
     _focusNode.addListener(() {
       setState(() {
@@ -42,6 +34,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
   @override
   void dispose() {
+    _controller.dispose();
     _focusNode.dispose();
     super.dispose();
   }
@@ -49,29 +42,21 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      textAlignVertical: TextAlignVertical.top,
+      controller: _controller,
       focusNode: _focusNode,
-      style: AppStyles.regular14.copyWith(
-          fontWeight: widget.fontWeight ?? widget.fontWeight,
-          fontSize: widget.fontSize ?? widget.fontSize,
-          decoration: widget.isChecked == null
-              ? null
-              : widget.isChecked!
-                  ? TextDecoration.lineThrough
-                  : null),
+      style: AppStyles.regular14,
       onChanged: widget.onChanged,
       maxLines: null,
       minLines: 1,
       keyboardType: TextInputType.multiline,
-      initialValue: widget.initialValue,
       decoration: InputDecoration(
-        hintText: widget.hintText.isEmpty ? '' : widget.hintText,
         hintStyle: AppStyles.regular16.copyWith(color: AppColors.subTextColor),
         suffixIcon: _isTyping
             ? GestureDetector(
                 onTap: () {
                   widget.onTap?.call();
                   FocusScope.of(context).unfocus();
+                  _controller.clear();
                 },
                 child: const Icon(
                   FontAwesomeIcons.check,
@@ -80,6 +65,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 ),
               )
             : null,
+        hintText: 'To-Do',
         contentPadding: EdgeInsets.zero,
         enabledBorder: buildBorder(),
         focusedBorder: buildBorder(),
