@@ -42,9 +42,7 @@ class _CategoryItemState extends State<CategoryItem> {
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 400),
-        curve: Curves.easeInOut,
-        clipBehavior: Clip.antiAlias,
-        
+        curve: Curves.ease,
         height: _isExpanded
             ? context.height * 0.12 + (widgetSize?.height ?? 0.0)
             : context.height * 0.12,
