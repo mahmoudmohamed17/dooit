@@ -31,7 +31,7 @@ class _CategoryTitleWidgetState extends State<CategoryTitleWidget> {
               context.read<CategoryCubit>().updateCategory(
                   widget.categoryWithTasks.category.id,
                   title: title);
-              context.read<HomeCubit>().getCategoriesWithTask();
+              context.read<HomeCubit>().watchCategories();
               context.read<PinnedCubit>().getPinnedCategoriesWithTasks();
             },
             onChanged: (value) {

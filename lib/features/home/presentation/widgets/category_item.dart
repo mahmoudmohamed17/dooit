@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:to_do_list_app/constants.dart';
 import 'package:to_do_list_app/core/extensions/context_extension.dart';
@@ -23,6 +22,17 @@ class CategoryItem extends StatefulWidget {
 
 class _CategoryItemState extends State<CategoryItem> {
   bool _isExpanded = false;
+  Size? widgetSize;
+  final GlobalKey _key = GlobalKey();
+  void _getWidetSize() {
+    final renderBox = _key.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox != null) {
+      setState(() {
+        widgetSize = renderBox.size;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -31,8 +41,13 @@ class _CategoryItemState extends State<CategoryItem> {
             arguments: widget.categoryWithTasks);
       },
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeIn,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.easeInOut,
+        clipBehavior: Clip.antiAlias,
+        
+        height: _isExpanded
+            ? context.height * 0.12 + (widgetSize?.height ?? 0.0)
+            : context.height * 0.12,
         decoration: ShapeDecoration(
             color: labelColor[widget.categoryWithTasks.category.label],
             shape: RoundedRectangleBorder(
@@ -62,18 +77,24 @@ class _CategoryItemState extends State<CategoryItem> {
                           setState(() {
                             _isExpanded = !_isExpanded;
                           });
+                          WidgetsBinding.instance.addPostFrameCallback(
+                              (_) => mounted ? _getWidetSize() : null);
                         },
-                        child: _isExpanded
-                            ? const RotatingIconWidget(
-                                angle: -pi / 2,
-                              )
-                            : const RotatingIconWidget(angle: pi / 2)),
+                        child: RotatingIconWidget(isRotate: _isExpanded)),
               ],
             ),
             verticalSpace(16),
             _isExpanded
-                ? CategoryTasksList(tasks: widget.categoryWithTasks.tasks)
-                : const SizedBox.shrink(),
+                ? Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: CategoryTasksList(
+                        tasks: widget.categoryWithTasks.tasks,
+                        key: _key,
+                      ),
+                  ),
+                )
+                : const SizedBox(),
             Row(
               spacing: 16,
               children: [

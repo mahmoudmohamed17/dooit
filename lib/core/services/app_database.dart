@@ -55,6 +55,10 @@ class AppDatabase extends _$AppDatabase {
     await (delete(tasksTable)..where((task) => task.id.equals(taskId))).go();
   }
 
+  Future<List<TasksTableData>> getAllTasks() async {
+    return await select(tasksTable).get();
+  }
+
   Future<List<TasksTableData>> getTasksByCategory(
       {required int categoryId}) async {
     final tasks = (select(tasksTable)
@@ -88,6 +92,16 @@ class AppDatabase extends _$AppDatabase {
         return CategoryWithTasks(category: category, tasks: tasks);
       }));
     });
+  }
+
+   Future<List<CategoryWithTasks>> getCategoriesWithTasks() async {
+    final categories = await select(categoriesTable).get();
+    return Future.wait(categories.map((category) async {
+      final tasks = await (select(tasksTable)
+            ..where((task) => task.categoryId.equals(category.id)))
+          .get();
+      return CategoryWithTasks(category: category, tasks: tasks);
+    }));
   }
 
   Future<List<CategoryWithTasks>> getPinnedCategoriesWithTasks() async {

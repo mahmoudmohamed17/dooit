@@ -25,9 +25,6 @@ class FilledListBody extends StatelessWidget {
                 context
                     .read<PinnedCubit>()
                     .deleteFromPinned(categoryWithTasks: list[index]);
-                await context
-                    .read<HomeCubit>()
-                    .removeFromDatabase(categoryWithTasks: list[index]);
               },
               icon: Icons.delete,
               label: 'Delete',

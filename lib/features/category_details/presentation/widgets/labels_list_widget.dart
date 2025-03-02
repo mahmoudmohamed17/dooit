@@ -26,7 +26,7 @@ class LabelsListWidget extends StatelessWidget {
             context
                 .read<CategoryCubit>()
                 .updateCategory(category.id, label: value);
-            context.read<HomeCubit>().getCategoriesWithTask();
+            context.read<HomeCubit>().watchCategories();
             context.read<PinnedCubit>().getPinnedCategoriesWithTasks();
           },
         ),
