@@ -67,7 +67,11 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       initialValue: widget.initialValue,
       decoration: InputDecoration(
         hintText: widget.hintText.isEmpty ? '' : widget.hintText,
-        hintStyle: AppStyles.regular16.copyWith(color: AppColors.subTextColor),
+        hintStyle: AppStyles.regular16.copyWith(
+          color: AppColors.subTextColor,
+          fontWeight: widget.fontWeight ?? widget.fontWeight,
+          fontSize: widget.fontSize ?? widget.fontSize,
+        ),
         suffixIcon: _isTyping
             ? GestureDetector(
                 onTap: () {
