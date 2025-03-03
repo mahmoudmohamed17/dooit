@@ -1,44 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list_app/features/home/presentation/widgets/navigation_button.dart';
+import 'package:to_do_list_app/constants.dart';
+import 'package:to_do_list_app/core/utils/app_colors.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
-class NavigationButtonsWidget extends StatelessWidget {
+class NavigationButtonsWidget extends StatefulWidget {
   const NavigationButtonsWidget(
       {super.key, required this.activeIndex, required this.controller});
   final int activeIndex;
   final PageController controller;
+
+  @override
+  State<NavigationButtonsWidget> createState() =>
+      _NavigationButtonsWidgetState();
+}
+
+class _NavigationButtonsWidgetState extends State<NavigationButtonsWidget> {
+  late int _activeIndex;
+  @override
+  void initState() {
+    super.initState();
+    _activeIndex = widget.activeIndex;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      spacing: 12,
-      children: [
-        Expanded(
-          child: GestureDetector(
-            onTap: () {
-              controller.animateToPage(0,
-                  duration: const Duration(milliseconds: 350),
-                  curve: Curves.easeInOut);
-            },
-            child: NavigationButton(
-              isActive: activeIndex == 0,
-              text: 'All Lists',
-            ),
-          ),
-        ),
-        Expanded(
-          child: GestureDetector(
-            onTap: () {
-              controller.animateToPage(1,
-                  duration: const Duration(milliseconds: 350),
-                  curve: Curves.easeInOut);
-            },
-            child: NavigationButton(
-              isActive: activeIndex == 1,
-              text: 'Pinned',
-            ),
-          ),
-        ),
+    return ToggleSwitch(
+      minWidth: 200.00,
+      cornerRadius: navigationButtonRadius,
+      activeBgColors: const [
+        [Colors.black],
+        [Colors.black],
       ],
+      activeFgColor: Colors.white,
+      inactiveBgColor: AppColors.unselectedBadgeColor,
+      inactiveFgColor: AppColors.unselectedTextBadgeColor,
+      fontSize: 16.00,
+      animate: true,
+      animationDuration: 200,
+      initialLabelIndex: _activeIndex,
+      totalSwitches: 2,
+      labels: const ['All List', 'Pinned'],
+      radiusStyle: true,
+      onToggle: (index) {
+        setState(() {
+          _activeIndex = index!;
+        });
+        widget.controller.animateToPage(_activeIndex,
+            duration: const Duration(milliseconds: 350),
+            curve: Curves.easeInOut);
+      },
     );
   }
 }

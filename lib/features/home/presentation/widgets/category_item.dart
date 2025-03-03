@@ -57,7 +57,6 @@ class _CategoryItemState extends State<CategoryItem> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              spacing: 12,
               children: [
                 SizedBox(
                   width: context.width * 0.70,
@@ -68,6 +67,7 @@ class _CategoryItemState extends State<CategoryItem> {
                     style: AppStyles.medium20,
                   ),
                 ),
+               const Spacer(),
                 widget.categoryWithTasks.tasks.isEmpty
                     ? const SizedBox()
                     : GestureDetector(
@@ -79,19 +79,20 @@ class _CategoryItemState extends State<CategoryItem> {
                               (_) => mounted ? _getWidetSize() : null);
                         },
                         child: RotatingIconWidget(isRotate: _isExpanded)),
+                  horizontalSpace(12),
               ],
             ),
             verticalSpace(16),
             _isExpanded
                 ? Expanded(
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: CategoryTasksList(
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: CategoryTasksList(
                         tasks: widget.categoryWithTasks.tasks,
                         key: _key,
                       ),
-                  ),
-                )
+                    ),
+                  )
                 : const SizedBox(),
             Row(
               spacing: 16,

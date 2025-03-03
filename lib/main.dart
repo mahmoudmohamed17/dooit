@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list_app/constants.dart';
+import 'package:to_do_list_app/core/funcs/check_app_flow.dart';
 import 'package:to_do_list_app/core/services/get_it_service.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_router.dart';
-import 'package:to_do_list_app/core/utils/routes.dart';
 import 'package:to_do_list_app/core/utils/shared_prefs.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_list_app/features/category_details/presentation/manager/cubit/category_cubit.dart';
@@ -44,9 +43,7 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: AppColors.secondaryColor,
         ),
         debugShowCheckedModeBanner: false,
-        initialRoute: SharedPrefs.getBool(isOnBoardingSeen)
-            ? Routes.homeView
-            : Routes.onboardingView,
+        initialRoute: checkAppFlow(),
         onGenerateRoute: AppRouter.onGeneratedRoute,
       ),
     );

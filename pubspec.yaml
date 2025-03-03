@@ -25,6 +25,7 @@ dependencies:
   path_provider: ^2.1.5
   rxdart: ^0.28.0
   shared_preferences: ^2.3.3
+  toggle_switch: ^2.3.0
 dev_dependencies:
   drift_dev: ^2.22.1
   build_runner: ^2.4.13
