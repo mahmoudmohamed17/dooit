@@ -4,7 +4,6 @@ import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/spaces.dart';
 import 'package:to_do_list_app/features/home/presentation/widgets/all_lists_view_body.dart';
 import 'package:to_do_list_app/features/home/presentation/widgets/home_app_bar.dart';
-import 'package:to_do_list_app/features/home/presentation/widgets/home_screens_page_view.dart';
 import 'package:to_do_list_app/features/home/presentation/widgets/pinned_lists_view_body.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
