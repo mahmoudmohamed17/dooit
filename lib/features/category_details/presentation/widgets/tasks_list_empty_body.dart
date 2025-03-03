@@ -18,16 +18,19 @@ class TasksListEmptyBody extends StatelessWidget {
       onTap: () {
         addTaskBottomSheet(context, category);
       },
-      child: Row(
-        spacing: 8,
-        children: [
-          const Icon(
-            FontAwesomeIcons.squarePlus,
-          ),
-          Text('To-Do',
-              style:
-                  AppStyles.regular16.copyWith(color: AppColors.subTextColor)),
-        ],
+      child: Align(
+        alignment: Alignment.topCenter,
+        child: Row(
+          spacing: 8,
+          children: [
+            const Icon(
+              FontAwesomeIcons.squarePlus,
+            ),
+            Text('To-Do',
+                style: AppStyles.regular16
+                    .copyWith(color: AppColors.subTextColor)),
+          ],
+        ),
       ),
     );
   }

@@ -19,11 +19,11 @@ Future<dynamic> customButtomSheet(BuildContext context) {
               top: 16,
               right: 16,
               left: 16,
-              bottom: MediaQuery.viewInsetsOf(context).bottom),
+              bottom: MediaQuery.viewInsetsOf(context).bottom + 24),
           child: SingleChildScrollView(
             child: Column(
               spacing: 24,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -65,7 +65,6 @@ Future<dynamic> customButtomSheet(BuildContext context) {
                       style: AppStyles.medium16
                           .copyWith(color: AppColors.secondaryColor),
                     )),
-                verticalSpace(16)
               ],
             ),
           ),
