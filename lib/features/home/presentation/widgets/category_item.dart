@@ -44,8 +44,8 @@ class _CategoryItemState extends State<CategoryItem> {
         duration: const Duration(milliseconds: 400),
         curve: Curves.ease,
         height: _isExpanded
-            ? context.height * 0.12 + (widgetSize?.height ?? 0.0)
-            : context.height * 0.12,
+            ? context.height * 0.13 + (widgetSize?.height ?? 0.0)
+            : context.height * 0.13,
         decoration: ShapeDecoration(
             color: labelColor[widget.categoryWithTasks.category.label],
             shape: RoundedRectangleBorder(
