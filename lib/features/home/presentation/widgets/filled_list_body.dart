@@ -26,12 +26,10 @@ class FilledListBody extends StatelessWidget {
               color: const Color(0xffE3735E),
               borderRadius: BorderRadius.circular(categoryItemRadius),
             ),
-            child: Align(
-              alignment: Alignment.center,
-              child: Text(
-                'Remove',
-                style: AppStyles.medium16.copyWith(color: Colors.black),
-              ),
+            alignment: Alignment.center,
+            child: Text(
+              'Remove',
+              style: AppStyles.medium16.copyWith(color: Colors.black),
             ),
           ),
           onDismissed: (direction) {

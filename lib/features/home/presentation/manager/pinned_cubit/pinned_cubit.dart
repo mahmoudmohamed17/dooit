@@ -12,7 +12,6 @@ class PinnedCubit extends Cubit<PinnedState> {
   List<CategoryWithTasks> pinnedCategories = [];
   Future<void> addToPinned(
       {required CategoryWithTasks categoryWithTasks}) async {
-    emit(PinnedLoading());
     pinnedCategories.add(categoryWithTasks);
     database.updateCategory(categoryWithTasks.category.id, isPinned: true);
     await getPinnedCategoriesWithTasks();
@@ -20,7 +19,6 @@ class PinnedCubit extends Cubit<PinnedState> {
 
   Future<void> deleteFromPinned(
       {required CategoryWithTasks categoryWithTasks}) async {
-    emit(PinnedLoading());
     pinnedCategories.remove(categoryWithTasks);
     database.updateCategory(categoryWithTasks.category.id, isPinned: false);
     await getPinnedCategoriesWithTasks();
