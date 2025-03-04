@@ -1,7 +1,9 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:to_do_list_app/core/models/category_model.dart';
 import 'package:to_do_list_app/core/models/category_with_tasks.dart';
+import 'package:to_do_list_app/core/models/task_model.dart';
 import 'package:to_do_list_app/core/services/categories_table.dart';
 import 'package:to_do_list_app/core/services/tasks_table.dart';
 part 'app_database.g.dart';
@@ -20,11 +22,11 @@ class AppDatabase extends _$AppDatabase {
 
   // as we need the data inside the category when
   // navigating to the details body we return [CategoriesTableData]
-  Future<CategoriesTableData> addCategory(
+  Future<int> addCategory(
       {required String title,
       required String label,
       required String date}) async {
-    return await into(categoriesTable).insertReturning(CategoriesTableCompanion(
+    return await into(categoriesTable).insert(CategoriesTableCompanion(
       title: Value(title),
       label: Value(label),
       date: Value(date),
@@ -44,8 +46,8 @@ class AppDatabase extends _$AppDatabase {
     ]);
   }
 
-  Future<void> addTask({required String title, required int categoryId}) async {
-    await into(tasksTable).insert(TasksTableCompanion(
+  Future<int> addTask({required String title, required int categoryId}) async {
+    return await into(tasksTable).insert(TasksTableCompanion(
         title: Value(title),
         categoryId: Value(categoryId),
         isChecked: const Value(false)));
@@ -55,16 +57,16 @@ class AppDatabase extends _$AppDatabase {
     await (delete(tasksTable)..where((task) => task.id.equals(taskId))).go();
   }
 
-  Future<List<TasksTableData>> getAllTasks() async {
-    return await select(tasksTable).get();
+  Future<List<TaskModel>> getAllTasks() async {
+    final query = await select(tasksTable).get();
+    return query.map((row) => TaskModel.fromJson(row)).toList();
   }
 
-  Future<List<TasksTableData>> getTasksByCategory(
-      {required int categoryId}) async {
-    final tasks = (select(tasksTable)
-          ..where((task) => task.categoryId.equals(categoryId)))
+  Future<List<TaskModel>> getTasksByCategory({required int categoryId}) async {
+    final query = await (select(tasksTable)
+          ..where((row) => row.categoryId.equals(categoryId)))
         .get();
-    return tasks;
+    return query.map((row) => TaskModel.fromJson(row)).toList();
   }
 
   void updateCategory(int categoryId,
@@ -85,41 +87,53 @@ class AppDatabase extends _$AppDatabase {
             isChecked: Value.absentIfNull(isChecked)));
   }
 
-  Stream<List<CategoryWithTasks>> watchCategoriesTable() {
-    return select(categoriesTable).watch().asyncMap((categories) async {
-      return Future.wait(categories.map((category) async {
-        final tasks = await getTasksByCategory(categoryId: category.id);
-        return CategoryWithTasks(category: category, tasks: tasks);
-      }));
-    });
-  }
+  Future<List<CategoryWithTasks>> getCategoriesWithTasks() async {
+    final query = await (select(categoriesTable).join([
+      leftOuterJoin(
+          tasksTable, tasksTable.categoryId.equalsExp(categoriesTable.id))
+    ])).get();
 
-   Future<List<CategoryWithTasks>> getCategoriesWithTasks() async {
-    final categories = await select(categoriesTable).get();
-    return Future.wait(categories.map((category) async {
-      final tasks = await (select(tasksTable)
-            ..where((task) => task.categoryId.equals(category.id)))
-          .get();
-      return CategoryWithTasks(category: category, tasks: tasks);
-    }));
+    List<CategoryWithTasks> result = [];
+    for (var row in query) {
+      final category =
+          CategoryModel.fromJson(row.readTable(categoriesTable).toJson());
+      final task = row.readTableOrNull(tasksTable) != null
+          ? TaskModel.fromJson(row.readTable(tasksTable).toJson())
+          : null;
+
+      final existingCategory = result.firstWhere(
+          (element) => element.category.id == category.id,
+          orElse: () => CategoryWithTasks(category: category, tasks: []));
+      if (!result.contains(existingCategory)) {
+        result.add(existingCategory);
+      }
+      if (task != null) {
+        existingCategory.tasks.add(task);
+      }
+    }
+    return result;
   }
 
   Future<List<CategoryWithTasks>> getPinnedCategoriesWithTasks() async {
-    final catgories = await select(categoriesTable).get();
-    final pinnedCategories =
-        catgories.where((category) => category.isPinned).toList();
-    return Future.wait(pinnedCategories.map((category) async {
+    final cQuery = await (select(categoriesTable)
+          ..where((category) => category.isPinned))
+        .get();
+    final categories =
+        cQuery.map((row) => CategoryModel.fromJson(row)).toList();
+    return Future.wait(categories.map((category) async {
       final tasks = await getTasksByCategory(categoryId: category.id);
       return CategoryWithTasks(category: category, tasks: tasks);
     }));
   }
 
   Future<CategoryWithTasks> getCategoryWithTasks({required int id}) async {
-    final category = await (select(categoriesTable)
+    final cQuery = await (select(categoriesTable)
           ..where((c) => c.id.equals(id)))
         .getSingle();
-    final tasks =
+    final category = CategoryModel.fromJson(cQuery);
+    final tQuery =
         await (select(tasksTable)..where((t) => t.categoryId.equals(id))).get();
+    final tasks = tQuery.map((row) => TaskModel.fromJson(row)).toList();
     return CategoryWithTasks(category: category, tasks: tasks);
   }
 
