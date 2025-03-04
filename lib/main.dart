@@ -13,11 +13,9 @@ import 'package:to_do_list_app/my_bloc_observer.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupGetIt();
-  await SharedPrefs.init();
   Bloc.observer = MyBlocObserver();
-  await Future.delayed(const Duration(seconds: 2), () {
-    runApp(const MyApp());
-  });
+  await SharedPrefs.init();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

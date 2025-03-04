@@ -29,8 +29,8 @@ class HomeCubit extends Cubit<HomeState> {
     log('Category id before: ${category.id}');
     category.id = cId;
     log('Category id after: ${category.id}');
-  }
 
+  }
   Future<void> removeFromDatabase({required int categoryId}) async {
     await db.deleteCategory(categoryId: categoryId);
   }
