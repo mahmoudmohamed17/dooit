@@ -35,7 +35,7 @@ class HomeCubit extends Cubit<HomeState> {
     await db.deleteCategory(categoryId: categoryId);
   }
 
-  // NOTE: Only called when the app is launched
+  // NOTE: Only called when the app is launched.
   Future<void> getCategoriesWithTask() async {
     categoriesWithTasks = await db.getCategoriesWithTasks();
     emitHomeState();

@@ -53,11 +53,12 @@ Future<dynamic> addCategoryButtomSheet(BuildContext context) {
                         label: label!,
                         date: date,
                       );
-                      context
-                          .read<HomeCubit>()
-                          .addCategory(category: category);
+                      context.read<HomeCubit>().addCategory(category: category);
                       // ignore: use_build_context_synchronously
                       context.pop();
+                      await context
+                          .read<HomeCubit>()
+                          .addToDatabase(category: category);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryColor,

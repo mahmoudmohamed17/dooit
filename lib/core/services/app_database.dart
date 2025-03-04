@@ -56,14 +56,14 @@ class AppDatabase extends _$AppDatabase {
 
   Future<List<TaskModel>> getAllTasks() async {
     final query = await select(tasksTable).get();
-    return query.map((row) => TaskModel.fromJson(row)).toList();
+    return query.map((row) => TaskModel.fromJson(row.toJson())).toList();
   }
 
   Future<List<TaskModel>> getTasksByCategory({required int categoryId}) async {
     final query = await (select(tasksTable)
           ..where((row) => row.categoryId.equals(categoryId)))
         .get();
-    return query.map((row) => TaskModel.fromJson(row)).toList();
+    return query.map((row) => TaskModel.fromJson(row.toJson())).toList();
   }
 
   void updateCategory(int categoryId,
@@ -116,7 +116,7 @@ class AppDatabase extends _$AppDatabase {
           ..where((category) => category.isPinned))
         .get();
     final categories =
-        cQuery.map((row) => CategoryModel.fromJson(row)).toList();
+        cQuery.map((row) => CategoryModel.fromJson(row.toJson())).toList();
     return Future.wait(categories.map((category) async {
       final tasks = await getTasksByCategory(categoryId: category.id);
       return CategoryWithTasks(category: category, tasks: tasks);
@@ -127,10 +127,11 @@ class AppDatabase extends _$AppDatabase {
     final cQuery = await (select(categoriesTable)
           ..where((c) => c.id.equals(id)))
         .getSingle();
-    final category = CategoryModel.fromJson(cQuery);
+
+    final category = CategoryModel.fromJson(cQuery.toJson());
     final tQuery =
         await (select(tasksTable)..where((t) => t.categoryId.equals(id))).get();
-    final tasks = tQuery.map((row) => TaskModel.fromJson(row)).toList();
+    final tasks = tQuery.map((row) => TaskModel.fromJson(row.toJson())).toList();
     return CategoryWithTasks(category: category, tasks: tasks);
   }
 

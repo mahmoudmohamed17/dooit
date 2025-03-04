@@ -4,6 +4,7 @@ import 'package:to_do_list_app/core/models/category_model.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 import 'package:to_do_list_app/features/category_details/presentation/manager/cubit/category_cubit.dart';
 import 'package:to_do_list_app/features/category_details/presentation/widgets/category_labels_list_widget.dart';
+import 'package:to_do_list_app/features/home/presentation/manager/home_cubit/home_cubit.dart';
 import 'package:to_do_list_app/features/home/presentation/manager/pinned_cubit/pinned_cubit.dart';
 
 class LabelsListWidget extends StatelessWidget {
@@ -25,7 +26,10 @@ class LabelsListWidget extends StatelessWidget {
             context
                 .read<CategoryCubit>()
                 .updateCategory(category.id, label: value);
-            context.read<PinnedCubit>().getPinnedCategoriesWithTasks();
+            await Future.wait([
+              context.read<HomeCubit>().getCategoriesWithTask(),
+              context.read<PinnedCubit>().getPinnedCategoriesWithTasks(),
+            ]);
           },
         ),
       ],

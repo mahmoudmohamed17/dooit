@@ -27,22 +27,24 @@ class _PinWidgetState extends State<PinWidget> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         setState(() {
           if (isPinned) {
             isPinned = !isPinned;
             context
                 .read<PinnedCubit>()
                 .deleteFromPinned(categoryWithTasks: widget.categoryWithTasks);
-            context.read<HomeCubit>().getCategoriesWithTask();
           } else {
             isPinned = !isPinned;
             context
                 .read<PinnedCubit>()
                 .addToPinned(categoryWithTasks: widget.categoryWithTasks);
-            context.read<HomeCubit>().getCategoriesWithTask();
           }
         });
+        await Future.wait([
+          context.read<HomeCubit>().getCategoriesWithTask(),
+          context.read<PinnedCubit>().getPinnedCategoriesWithTasks(),
+        ]);
       },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 350),

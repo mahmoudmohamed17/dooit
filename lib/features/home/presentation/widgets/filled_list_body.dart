@@ -32,13 +32,16 @@ class FilledListBody extends StatelessWidget {
               style: AppStyles.medium16.copyWith(color: Colors.black),
             ),
           ),
-          onDismissed: (direction) {
+          onDismissed: (direction) async {
             context
                 .read<HomeCubit>()
                 .deleteCategory(categoryWithTasks: list[index]);
             context
                 .read<PinnedCubit>()
                 .deleteFromPinned(categoryWithTasks: list[index]);
+            await context
+                .read<HomeCubit>()
+                .removeFromDatabase(categoryId: list[index].category.id);
           },
           child: Padding(
             padding: const EdgeInsets.only(bottom: 18),

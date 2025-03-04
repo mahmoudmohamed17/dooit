@@ -12,10 +12,10 @@ class TaskModel {
 
   factory TaskModel.fromJson(json) {
     return TaskModel(
-        id: json.id ?? 0,
-        categoryId: json.categoryId ?? 0,
-        title: json.title ?? '',
-        isChecked: json.isChecked ?? false);
+        id: json['id'] ?? 0,
+        categoryId: json['categoryId'] ?? 0,
+        title: json['title'] ?? '',
+        isChecked: json['isChecked'] ?? false);
   }
 
   Map<String, dynamic> toJson() {

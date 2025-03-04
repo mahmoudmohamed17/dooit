@@ -8,6 +8,8 @@ import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 import 'package:to_do_list_app/core/utils/update_task_bottom_sheet.dart';
 import 'package:to_do_list_app/features/category_details/presentation/manager/cubit/category_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/manager/home_cubit/home_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/manager/pinned_cubit/pinned_cubit.dart';
 
 class TaskListItem extends StatelessWidget {
   const TaskListItem({super.key, required this.task, required this.category});
@@ -21,7 +23,7 @@ class TaskListItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-            onTap: () {
+            onTap: () async {
               if (task.isChecked) {
                 context.read<CategoryCubit>().updateTask(category.id, task.id,
                     isChecked: !task.isChecked);
@@ -29,6 +31,10 @@ class TaskListItem extends StatelessWidget {
                 context.read<CategoryCubit>().updateTask(category.id, task.id,
                     isChecked: !task.isChecked);
               }
+              await Future.wait([
+                context.read<HomeCubit>().getCategoriesWithTask(),
+                context.read<PinnedCubit>().getPinnedCategoriesWithTasks(),
+              ]);
             },
             child: task.isChecked
                 ? const Icon(FontAwesomeIcons.solidSquareCheck)
@@ -43,17 +49,22 @@ class TaskListItem extends StatelessWidget {
               task.title,
               style: AppStyles.regular14.copyWith(
                   decoration:
-                      task.isChecked ? TextDecoration.lineThrough : null, decorationThickness: 1.5),
+                      task.isChecked ? TextDecoration.lineThrough : null,
+                  decorationThickness: 1.5),
               maxLines: 5,
             ),
           ),
         ),
         const Spacer(),
         GestureDetector(
-          onTap: () {
+          onTap: () async {
             context
                 .read<CategoryCubit>()
                 .deleteTask(taskId: task.id, category: category);
+            await Future.wait([
+              context.read<HomeCubit>().getCategoriesWithTask(),
+              context.read<PinnedCubit>().getPinnedCategoriesWithTasks(),
+            ]);
           },
           child: const Icon(
             Icons.delete,

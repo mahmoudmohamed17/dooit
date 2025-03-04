@@ -8,6 +8,7 @@ import 'package:to_do_list_app/core/utils/app_styles.dart';
 import 'package:to_do_list_app/core/widgets/custom_button.dart';
 import 'package:to_do_list_app/core/widgets/custom_text_field.dart';
 import 'package:to_do_list_app/features/category_details/presentation/manager/cubit/category_cubit.dart';
+import 'package:to_do_list_app/features/home/presentation/manager/home_cubit/home_cubit.dart';
 import 'package:to_do_list_app/features/home/presentation/manager/pinned_cubit/pinned_cubit.dart';
 
 Future<dynamic> updateTaskBottomSheet(
@@ -41,12 +42,17 @@ Future<dynamic> updateTaskBottomSheet(
                 ),
                 CustomButton(
                   label: 'Change',
-                  onPressed: () {
+                  onPressed: () async {
                     context
                         .read<CategoryCubit>()
                         .updateTask(category.id, task.id, title: title ?? '');
-                    context.read<PinnedCubit>().getPinnedCategoriesWithTasks();
                     context.pop();
+                    await Future.wait([
+                      context.read<HomeCubit>().getCategoriesWithTask(),
+                      context
+                          .read<PinnedCubit>()
+                          .getPinnedCategoriesWithTasks(),
+                    ]);
                   },
                   color: AppColors.primaryColor,
                   textColor: AppColors.secondaryColor,

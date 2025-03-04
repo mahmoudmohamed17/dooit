@@ -40,81 +40,84 @@ class _CategoryItemState extends State<CategoryItem> {
         context.pushNamed(CategoryDetailsView.id,
             arguments: widget.categoryWithTasks);
       },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.ease,
-        height: _isExpanded
-            ? context.height * 0.13 + (widgetSize?.height ?? 0.0)
-            : context.height * 0.13,
-        decoration: ShapeDecoration(
-            color: labelColor[widget.categoryWithTasks.category.label],
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(categoryItemRadius),
-                side: BorderSide(
-                    color: _isExpanded ? Colors.black : Colors.transparent))),
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                SizedBox(
-                  width: context.width * 0.70,
-                  child: Text(
-                    widget.categoryWithTasks.category.title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: AppStyles.medium20,
-                  ),
-                ),
-               const Spacer(),
-                widget.categoryWithTasks.tasks.isEmpty
-                    ? const SizedBox()
-                    : GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _isExpanded = !_isExpanded;
-                          });
-                          WidgetsBinding.instance.addPostFrameCallback(
-                              (_) => mounted ? _getWidetSize() : null);
-                        },
-                        child: RotatingIconWidget(isRotate: _isExpanded)),
-                  horizontalSpace(12),
-              ],
-            ),
-            verticalSpace(16),
-            _isExpanded
-                ? Expanded(
-                    child: SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      child: CategoryTasksList(
-                        tasks: widget.categoryWithTasks.tasks,
-                        key: _key,
-                      ),
+      child: Container(
+        color: Colors.transparent,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.ease,
+          height: _isExpanded
+              ? context.height * 0.13 + (widgetSize?.height ?? 0.0)
+              : context.height * 0.13,
+          decoration: ShapeDecoration(
+              color: labelColor[widget.categoryWithTasks.category.label],
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(categoryItemRadius),
+                  side: BorderSide(
+                      color: _isExpanded ? Colors.black : Colors.transparent))),
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  SizedBox(
+                    width: context.width * 0.70,
+                    child: Text(
+                      widget.categoryWithTasks.category.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppStyles.medium20,
                     ),
-                  )
-                : const SizedBox(),
-            Row(
-              spacing: 16,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(labelRadius),
-                    color: AppColors.primaryColor,
                   ),
-                  padding: const EdgeInsets.all(8),
-                  child: Text(
-                    widget.categoryWithTasks.category.label,
-                    style: AppStyles.medium8
-                        .copyWith(color: AppColors.secondaryColor),
+                 const Spacer(),
+                  widget.categoryWithTasks.tasks.isEmpty
+                      ? const SizedBox()
+                      : GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isExpanded = !_isExpanded;
+                            });
+                            WidgetsBinding.instance.addPostFrameCallback(
+                                (_) => mounted ? _getWidetSize() : null);
+                          },
+                          child: RotatingIconWidget(isRotate: _isExpanded)),
+                    horizontalSpace(12),
+                ],
+              ),
+              verticalSpace(16),
+              _isExpanded
+                  ? Expanded(
+                      child: SingleChildScrollView(
+                        physics: const BouncingScrollPhysics(),
+                        child: CategoryTasksList(
+                          tasks: widget.categoryWithTasks.tasks,
+                          key: _key,
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
+              Row(
+                spacing: 16,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(labelRadius),
+                      color: AppColors.primaryColor,
+                    ),
+                    padding: const EdgeInsets.all(8),
+                    child: Text(
+                      widget.categoryWithTasks.category.label,
+                      style: AppStyles.medium8
+                          .copyWith(color: AppColors.secondaryColor),
+                    ),
                   ),
-                ),
-                DateWidget(
-                  date: widget.categoryWithTasks.category.date,
-                ),
-              ],
-            )
-          ],
+                  DateWidget(
+                    date: widget.categoryWithTasks.category.date,
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
