@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:to_do_list_app/core/extensions/navigation_context.dart';
-import 'package:to_do_list_app/core/services/app_database.dart';
+import 'package:to_do_list_app/core/models/category_model.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 import 'package:to_do_list_app/core/widgets/custom_button.dart';
@@ -10,7 +10,7 @@ import 'package:to_do_list_app/features/category_details/presentation/manager/cu
 import 'package:to_do_list_app/features/home/presentation/manager/pinned_cubit/pinned_cubit.dart';
 
 Future<dynamic> addTaskBottomSheet(
-    BuildContext context, CategoriesTableData category) {
+    BuildContext context, CategoryModel category) {
   String? title;
   return showModalBottomSheet(
       context: context,

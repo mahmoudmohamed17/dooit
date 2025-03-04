@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:to_do_list_app/core/extensions/context_extension.dart';
-import 'package:to_do_list_app/core/services/app_database.dart';
+import 'package:to_do_list_app/core/models/category_model.dart';
+import 'package:to_do_list_app/core/models/task_model.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 import 'package:to_do_list_app/core/utils/update_task_bottom_sheet.dart';
@@ -10,8 +11,8 @@ import 'package:to_do_list_app/features/category_details/presentation/manager/cu
 
 class TaskListItem extends StatelessWidget {
   const TaskListItem({super.key, required this.task, required this.category});
-  final TasksTableData task;
-  final CategoriesTableData category;
+  final TaskModel task;
+  final CategoryModel category;
 
   @override
   Widget build(BuildContext context) {

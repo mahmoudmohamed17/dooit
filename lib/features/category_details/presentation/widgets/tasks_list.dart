@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_list_app/core/services/app_database.dart';
+import 'package:to_do_list_app/core/models/category_model.dart';
+import 'package:to_do_list_app/core/models/task_model.dart';
 import 'package:to_do_list_app/core/utils/spaces.dart';
 import 'package:to_do_list_app/features/category_details/presentation/widgets/add_task_list_widget.dart';
 import 'package:to_do_list_app/features/category_details/presentation/widgets/task_list_item.dart';
@@ -10,8 +11,8 @@ class TasksList extends StatelessWidget {
     required this.tasks,
     required this.category,
   });
-  final List<TasksTableData> tasks;
-  final CategoriesTableData category;
+  final List<TaskModel> tasks;
+  final CategoryModel category;
 
   @override
   Widget build(BuildContext context) {

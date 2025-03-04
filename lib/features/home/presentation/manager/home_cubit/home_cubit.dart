@@ -15,8 +15,7 @@ class HomeCubit extends Cubit<HomeState> {
       {required String title,
       required String date,
       required String label}) async {
-    var category =
-        await database.addCategory(title: title, label: label, date: date);
+    
     categoriesWithTasks.add(CategoryWithTasks(category: category, tasks: []));
     getCategoriesWithTask();
 
@@ -32,13 +31,6 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> getCategoriesWithTask() async {
     categoriesWithTasks = await database.getCategoriesWithTasks();
     emitHomeState();
-  }
-
-  void watchCategories() {
-    database.watchCategoriesTable().listen((data) {
-      categoriesWithTasks = data;
-    });
-    emit(HomeState());
   }
 
   void emitHomeState() {

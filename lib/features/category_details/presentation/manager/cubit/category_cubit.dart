@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
+import 'package:to_do_list_app/core/models/category_model.dart';
 import 'package:to_do_list_app/core/models/category_with_tasks.dart';
+import 'package:to_do_list_app/core/models/task_model.dart';
 import 'package:to_do_list_app/core/services/app_database.dart';
 import 'package:to_do_list_app/core/services/get_it_service.dart';
 part 'category_state.dart';
@@ -9,19 +11,19 @@ class CategoryCubit extends Cubit<CategoryState> {
   final database = getIt.get<AppDatabase>();
 
   Future<void> addTask(
-      {required String title, required CategoriesTableData category}) async {
+      {required String title, required CategoryModel category}) async {
     await database.addTask(title: title, categoryId: category.id);
     emitCategoryState(category.id);
   }
 
   Future<void> deleteTask(
-      {required int taskId, required CategoriesTableData category}) async {
+      {required int taskId, required CategoryModel category}) async {
     await database.deleteTask(taskId: taskId);
     emitCategoryState(category.id);
   }
 
-  Future<List<TasksTableData>> getTasks({required int categoryId}) async {
-    List<TasksTableData> tasks =
+  Future<List<TaskModel>> getTasks({required int categoryId}) async {
+    var tasks =
         await database.getTasksByCategory(categoryId: categoryId);
     return tasks;
   }
