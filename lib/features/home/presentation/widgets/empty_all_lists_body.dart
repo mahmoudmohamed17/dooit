@@ -5,7 +5,7 @@ import 'package:to_do_list_app/core/extensions/context_extension.dart';
 import 'package:to_do_list_app/core/utils/app_colors.dart';
 import 'package:to_do_list_app/core/utils/app_styles.dart';
 import 'package:to_do_list_app/core/utils/assets.dart';
-import 'package:to_do_list_app/core/utils/custom_buttom_sheet.dart';
+import 'package:to_do_list_app/core/utils/add_category_buttom_sheet.dart';
 
 class EmptyAllListsBody extends StatelessWidget {
   const EmptyAllListsBody({super.key});
@@ -23,7 +23,7 @@ class EmptyAllListsBody extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () {
-            customButtomSheet(context);
+            addCategoryButtomSheet(context);
           },
           child: Container(
             decoration: BoxDecoration(

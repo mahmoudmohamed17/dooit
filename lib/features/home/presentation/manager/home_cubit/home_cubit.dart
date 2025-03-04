@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
+import 'package:to_do_list_app/core/models/category_model.dart';
 import 'package:to_do_list_app/core/models/category_with_tasks.dart';
 import 'package:to_do_list_app/core/services/app_database.dart';
 import 'package:to_do_list_app/core/services/get_it_service.dart';
@@ -8,28 +11,33 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeInitial()) {
     getCategoriesWithTask();
   }
-  final database = getIt.get<AppDatabase>();
+  final db = getIt.get<AppDatabase>();
   List<CategoryWithTasks> categoriesWithTasks = [];
 
-  Future<void> addCategory(
-      {required String title,
-      required String date,
-      required String label}) async {
-    
+  void addCategory({required CategoryModel category}) {
     categoriesWithTasks.add(CategoryWithTasks(category: category, tasks: []));
-    getCategoriesWithTask();
-
+    emitHomeState();
   }
 
-  Future<void> deleteCategory(
-      {required CategoryWithTasks categoryWithTasks}) async {
-    await database.deleteCategory(categoryId: categoryWithTasks.category.id);
-    getCategoriesWithTask();
+  void deleteCategory({required CategoryWithTasks categoryWithTasks}) {
+    categoriesWithTasks.remove(categoryWithTasks);
+    emitHomeState();
   }
 
-  // only called when the app is launched
+  Future<void> addToDatabase({required CategoryModel category}) async {
+    var cId = await db.addCategory(category: category);
+    log('Category id before: ${category.id}');
+    category.id = cId;
+    log('Category id after: ${category.id}');
+  }
+
+  Future<void> removeFromDatabase({required int categoryId}) async {
+    await db.deleteCategory(categoryId: categoryId);
+  }
+
+  // NOTE: Only called when the app is launched
   Future<void> getCategoriesWithTask() async {
-    categoriesWithTasks = await database.getCategoriesWithTasks();
+    categoriesWithTasks = await db.getCategoriesWithTasks();
     emitHomeState();
   }
 

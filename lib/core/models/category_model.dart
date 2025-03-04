@@ -1,12 +1,13 @@
 class CategoryModel {
-  final int id;
+  int id;
   final String date;
   String title;
   String label;
   bool isPinned;
 
   CategoryModel(
-      {required this.id,
+      {
+      this.id = 0,
       required this.date,
       this.title = '',
       this.label = '',
